@@ -1,0 +1,2585 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vikram Rajak — Senior UX UI Designer</title>
+<meta name="description" content="Senior UX UI Designer at Impact Analytics. I make retail AI useful for the planners and merchants who actually run the business.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* =========================================================
+   Tokens
+   ========================================================= */
+:root {
+  --bg: #FAF9F6; --surface: #FFFFFF; --surface-2: #F4F2EC;
+  --text: #0A0A0A; --text-2: #4B4B4B; --text-3: #8A8A85;
+  --border: #E8E5DE; --border-strong: #D6D2C8;
+  --accent: #B83310; --accent-soft: #FBEDE6;
+  --case-a: #B83310; --case-b: #1B5364; --case-c: #8B6914;
+  --good: #2D6A2D; --good-soft: #E8F2E8;
+  --bad: #7A2A1F;  --bad-soft: #F8E6E0;
+  --warn: #8B5A1B; --warn-soft: #FBF1DF;
+  --font-display: "Instrument Serif", "Iowan Old Style", "Times New Roman", serif;
+  --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+  --max-w: 720px; --max-w-hero: 920px; --max-w-wide: 1080px; --max-w-cards: 1240px;
+  --radius: 12px; --radius-sm: 8px; --radius-lg: 16px;
+  --shadow-sm: 0 1px 2px rgba(11,11,11,0.04), 0 2px 8px rgba(11,11,11,0.04);
+  --shadow-md: 0 12px 32px rgba(11,11,11,0.10), 0 4px 10px rgba(11,11,11,0.05);
+  --shadow-lg: 0 20px 56px rgba(11,11,11,0.14), 0 6px 16px rgba(11,11,11,0.06);
+  --ease-out: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+body.case-a { --accent: var(--case-a); --accent-soft: #FBEDE6; }
+body.case-b { --accent: var(--case-b); --accent-soft: #E3EDEF; }
+body.case-c { --accent: var(--case-c); --accent-soft: #F1EBDC; }
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg); color: var(--text);
+  font-family: var(--font-sans); font-size: 17px; line-height: 1.6;
+  -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;
+  font-feature-settings: "ss01", "cv11";
+}
+img { max-width: 100%; display: block; }
+a { color: inherit; }
+::selection { background: var(--accent); color: white; }
+
+/* SPA */
+.view { display: none; }
+.view.active { display: block; animation: viewFadeIn .35s var(--ease-out); }
+body.landing .case-switcher { display: none; }
+
+/* Animations */
+@keyframes viewFadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes fadeUp { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes shimmerLine {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.container { max-width: var(--max-w); margin: 0 auto; padding: 0 28px; }
+.container-hero { max-width: var(--max-w-hero); margin: 0 auto; padding: 0 28px; }
+.container-wide { max-width: var(--max-w-wide); margin: 0 auto; padding: 0 28px; }
+.container-cards { max-width: var(--max-w-cards); margin: 0 auto; padding: 0 28px; }
+
+/* =========================================================
+   Top nav
+   ========================================================= */
+.topnav {
+  position: sticky; top: 0; z-index: 50;
+  background: rgba(250, 249, 246, 0.78);
+  backdrop-filter: saturate(180%) blur(14px);
+  -webkit-backdrop-filter: saturate(180%) blur(14px);
+  border-bottom: 1px solid var(--border);
+  animation: fadeIn .4s var(--ease-out);
+}
+.topnav-inner {
+  max-width: var(--max-w-cards); margin: 0 auto; padding: 14px 28px;
+  display: flex; justify-content: space-between; align-items: center;
+  gap: 24px; font-size: 14px;
+}
+.topnav-brand {
+  font-weight: 600; letter-spacing: -0.01em;
+  text-decoration: none; color: inherit;
+  transition: color .2s var(--ease-out), transform .25s var(--ease-spring);
+  display: inline-block;
+}
+.topnav-brand:hover { color: var(--accent); transform: translateY(-1px); }
+.topnav-links {
+  display: flex; align-items: center; gap: 22px;
+  color: var(--text-2); flex-wrap: wrap; justify-content: flex-end;
+}
+.topnav-links a {
+  text-decoration: none; color: inherit;
+  position: relative; padding-bottom: 2px;
+  transition: color .15s var(--ease-out);
+}
+.topnav-links a::after {
+  content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 1px;
+  background: currentColor;
+  transform: scaleX(0); transform-origin: left;
+  transition: transform .25s var(--ease-out);
+}
+.topnav-links a:hover { color: var(--accent); }
+.topnav-links a:hover::after { transform: scaleX(1); }
+.topnav-links .role { color: var(--text-3); pointer-events: none; padding: 0; }
+.topnav-links .role::after { display: none; }
+.topnav-sep { color: var(--border-strong); }
+
+/* =========================================================
+   Case switcher
+   ========================================================= */
+.case-switcher {
+  position: sticky; top: 49px; z-index: 45;
+  background: rgba(250, 249, 246, 0.92);
+  backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+}
+.case-switcher-inner {
+  max-width: var(--max-w-cards); margin: 0 auto; padding: 10px 28px;
+  display: flex; gap: 22px; align-items: center; font-size: 13px;
+  overflow-x: auto; scrollbar-width: none;
+}
+.case-switcher-inner::-webkit-scrollbar { display: none; }
+.case-switcher-label {
+  color: var(--text-3); letter-spacing: 0.08em; text-transform: uppercase;
+  font-size: 11px; font-weight: 600; flex-shrink: 0;
+}
+.case-switcher a {
+  color: var(--text-2); text-decoration: none; white-space: nowrap;
+  padding: 6px 0; position: relative;
+  transition: color .15s var(--ease-out);
+}
+.case-switcher a::after {
+  content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 2px;
+  background: var(--accent); transform: scaleX(0); transform-origin: left;
+  transition: transform .25s var(--ease-out);
+}
+.case-switcher a:hover { color: var(--accent); }
+.case-switcher a:hover::after { transform: scaleX(1); }
+.case-switcher a.current { color: var(--text); font-weight: 600; }
+.case-switcher a.current::after { transform: scaleX(1); }
+
+/* Mobile prev/next arrows — hidden by default, shown on small screens */
+.case-nav-arrow {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 32px; height: 32px;
+  border-radius: 50%;
+  background: transparent;
+  border: 1px solid var(--border-strong);
+  color: var(--text-2);
+  cursor: pointer;
+  padding: 0;
+  flex-shrink: 0;
+  transition: background .2s var(--ease-out),
+              color .2s var(--ease-out),
+              border-color .2s var(--ease-out),
+              transform .25s var(--ease-spring);
+}
+.case-nav-arrow:hover { background: var(--accent); color: #FFFFFF; border-color: var(--accent); }
+.case-nav-arrow:active { transform: scale(.92); }
+.case-nav-arrow:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.case-nav-arrow svg { width: 14px; height: 14px; }
+
+/* =========================================================
+   LANDING — hero (Joe Pendlebury style)
+   ========================================================= */
+.landing-hero { padding: clamp(64px, 10vw, 128px) 0 clamp(64px, 9vw, 112px); border-bottom: 1px solid var(--border); }
+.landing-hero-eyebrow {
+  font-size: 13px; letter-spacing: 0.08em; text-transform: uppercase;
+  color: var(--text-3); font-weight: 500; margin-bottom: 28px;
+  animation: fadeUp .55s var(--ease-out) backwards; animation-delay: .05s;
+}
+.landing-hero-eyebrow .available-dot {
+  display: inline-block; width: 7px; height: 7px; border-radius: 50%;
+  background: #34A853; margin-right: 8px; vertical-align: middle;
+  box-shadow: 0 0 0 0 rgba(52,168,83, 0.55);
+  animation: pulse 2.2s ease-in-out infinite;
+}
+@keyframes pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(52,168,83, 0.55); }
+  50% { box-shadow: 0 0 0 6px rgba(52,168,83, 0); }
+}
+
+.hero-narrative {
+  font-family: var(--font-display);
+  font-size: clamp(28px, 3.6vw, 50px);
+  line-height: 1.18;
+  letter-spacing: -0.015em;
+  margin-bottom: 28px;
+  font-weight: 400;
+  color: var(--text);
+  animation: fadeUp .7s var(--ease-out) backwards; animation-delay: .15s;
+}
+.hero-narrative em {
+  font-style: italic;
+  color: var(--accent);
+  white-space: nowrap;
+}
+.hero-narrative .credit {
+  display: block;
+  margin-top: 24px;
+  font-size: clamp(18px, 1.6vw, 22px);
+  line-height: 1.4;
+  color: var(--text-2);
+  font-style: normal;
+}
+.hero-narrative .tagline {
+  display: block;
+  margin-top: 14px;
+  font-size: clamp(16px, 1.4vw, 19px);
+  color: var(--accent);
+  font-style: italic;
+}
+
+.hero-pills {
+  display: flex; gap: 10px; flex-wrap: wrap;
+  margin-top: 36px;
+  animation: fadeUp .55s var(--ease-out) backwards; animation-delay: .35s;
+}
+.hero-pill {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 7px 14px;
+  border: 1px solid var(--border-strong);
+  border-radius: 100px;
+  font-size: 13px;
+  color: var(--text-2);
+  background: transparent;
+  transition: border-color .25s var(--ease-out),
+              color .25s var(--ease-out),
+              background .25s var(--ease-out),
+              transform .25s var(--ease-spring);
+}
+.hero-pill:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: var(--accent-soft);
+  transform: translateY(-1px);
+}
+.hero-pill strong { color: var(--text); font-weight: 600; }
+.hero-pill:hover strong { color: var(--accent); }
+
+/* =========================================================
+   Case cards
+   ========================================================= */
+.cases-section { padding: clamp(64px, 8vw, 112px) 0 clamp(80px, 10vw, 128px); }
+.cases-section-label {
+  font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--text-3); font-weight: 600; margin-bottom: 32px;
+  padding: 0 28px; max-width: var(--max-w-cards); margin-left: auto; margin-right: auto;
+}
+.case-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+
+.case-card {
+  display: flex; flex-direction: column; background: var(--surface);
+  border: 1px solid var(--border); border-radius: var(--radius);
+  overflow: hidden; text-decoration: none; color: inherit;
+  transition: transform .4s var(--ease-out),
+              box-shadow .4s var(--ease-out),
+              border-color .4s var(--ease-out);
+  position: relative;
+  animation: fadeUp .65s var(--ease-out) backwards;
+}
+.case-card:nth-child(1) { animation-delay: .5s; }
+.case-card:nth-child(2) { animation-delay: .62s; }
+.case-card:nth-child(3) { animation-delay: .74s; }
+.case-card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-lg);
+  border-color: var(--border-strong);
+}
+.case-card:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
+.case-card.card-a { --accent: var(--case-a); }
+.case-card.card-b { --accent: var(--case-b); }
+.case-card.card-c { --accent: var(--case-c); }
+
+.case-card-image {
+  aspect-ratio: 16/10; background: var(--accent);
+  display: flex; align-items: center; justify-content: center;
+  color: white; position: relative; overflow: hidden;
+}
+.case-card-image::before {
+  content: ""; position: absolute; inset: 0;
+  background: linear-gradient(135deg, rgba(255,255,255,0.10), rgba(0,0,0,0.20));
+  pointer-events: none; z-index: 1;
+}
+.case-card-image-placeholder {
+  font-family: var(--font-display); font-size: clamp(28px, 3.2vw, 48px);
+  letter-spacing: -0.02em; color: rgba(255,255,255,0.95); z-index: 2;
+  text-align: center; padding: 0 24px; font-weight: 400;
+  transition: transform .55s var(--ease-out), letter-spacing .55s var(--ease-out);
+}
+.case-card:hover .case-card-image-placeholder {
+  transform: scale(1.045);
+  letter-spacing: -0.025em;
+}
+.case-card-image img {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  object-fit: cover; display: block; z-index: 0;
+  transition: transform .55s var(--ease-out);
+}
+.case-card:hover .case-card-image img { transform: scale(1.045); }
+.case-card-label {
+  position: absolute; top: 14px; left: 18px;
+  font-family: var(--font-sans); font-size: 11px; letter-spacing: 0.12em;
+  text-transform: uppercase; color: rgba(255,255,255,0.85); font-weight: 600; z-index: 3;
+}
+.case-card-content { padding: 24px 26px 28px; display: flex; flex-direction: column; flex: 1; }
+.case-card-meta {
+  font-size: 12px; color: var(--text-3); letter-spacing: 0.02em;
+  display: flex; gap: 8px; align-items: center; margin-bottom: 14px;
+  flex-wrap: wrap; font-feature-settings: "tnum";
+}
+.case-card-meta .dot { color: var(--border-strong); }
+.case-card-meta strong { color: var(--text-2); font-weight: 600; }
+.case-card-headline {
+  font-family: var(--font-display); font-size: clamp(32px, 3.4vw, 42px);
+  line-height: 1.0; letter-spacing: -0.025em; color: var(--accent);
+  margin-bottom: 14px; transition: transform .35s var(--ease-out); font-weight: 400;
+}
+.case-card-headline .unit { font-size: 0.45em; color: var(--text-3); letter-spacing: 0; margin-left: 4px; }
+.case-card:hover .case-card-headline { transform: translateX(3px); }
+.case-card-description {
+  font-family: var(--font-display); font-style: italic;
+  font-size: 17px; line-height: 1.4; color: var(--text); margin-bottom: 24px; flex: 1;
+}
+.case-card-cta {
+  font-size: 13px; color: var(--text-2); font-weight: 600;
+  display: flex; align-items: center; gap: 6px; letter-spacing: 0.01em;
+  transition: color .25s var(--ease-out), gap .35s var(--ease-out);
+  margin-top: auto;
+}
+.case-card-cta::after {
+  content: "→"; font-size: 18px; display: inline-block;
+  transition: transform .35s var(--ease-out);
+}
+.case-card:hover .case-card-cta { color: var(--accent); gap: 12px; }
+.case-card:hover .case-card-cta::after { transform: translateX(3px); }
+
+/* About strip */
+.about-strip { padding: clamp(64px, 8vw, 96px) 0; border-top: 1px solid var(--border); background: var(--surface-2); }
+.about-strip h2 {
+  font-family: var(--font-display); font-size: clamp(28px, 3.8vw, 44px);
+  letter-spacing: -0.02em; margin-bottom: 24px; font-weight: 400; max-width: 18ch;
+}
+.about-strip p { font-size: 17px; color: var(--text-2); max-width: 620px; line-height: 1.6; margin-bottom: 16px; }
+
+/* =========================================================
+   Case study
+   ========================================================= */
+.case { padding: clamp(64px, 8vw, 96px) 0 0; }
+.case-hero { margin-bottom: clamp(48px, 6vw, 72px); }
+.case-hero-eyebrow {
+  font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--text-3); font-weight: 600; margin-bottom: 28px;
+  display: flex; align-items: center; gap: 14px;
+  animation: fadeUp .5s var(--ease-out) backwards; animation-delay: .05s;
+}
+.case-hero-eyebrow::before { content: ""; width: 28px; height: 1px; background: var(--accent); }
+.case-hero-number {
+  font-family: var(--font-display);
+  font-size: clamp(68px, 13vw, 156px); line-height: 0.92;
+  letter-spacing: -0.035em; color: var(--accent); margin-bottom: 24px; font-weight: 400;
+  animation: fadeUp .65s var(--ease-out) backwards; animation-delay: .15s;
+}
+.case-hero-number .unit { font-size: 0.42em; color: var(--text-3); letter-spacing: 0; margin-left: 4px; }
+.case-hero-caption {
+  font-family: var(--font-display); font-style: italic;
+  font-size: clamp(18px, 2.4vw, 26px); line-height: 1.35;
+  color: var(--text); max-width: 580px; margin-bottom: 24px; font-weight: 400;
+  animation: fadeUp .55s var(--ease-out) backwards; animation-delay: .3s;
+}
+.case-hero-meta {
+  font-size: 13px; color: var(--text-3); display: flex;
+  flex-wrap: wrap; gap: 12px; align-items: center; font-feature-settings: "tnum";
+  animation: fadeUp .55s var(--ease-out) backwards; animation-delay: .42s;
+}
+.case-hero-meta strong { color: var(--text-2); font-weight: 600; }
+.case-hero-meta .dot { color: var(--border-strong); }
+
+.opening { margin-bottom: clamp(56px, 7vw, 80px); }
+.opening blockquote {
+  font-family: var(--font-display); font-style: italic;
+  font-size: clamp(22px, 3vw, 32px); line-height: 1.25; color: var(--text);
+  padding-left: 28px; border-left: 3px solid var(--accent);
+  margin-bottom: 32px; font-weight: 400;
+}
+.opening p { margin-bottom: 16px; color: var(--text); font-size: 17px; line-height: 1.65; }
+.opening p:last-child { color: var(--accent); font-weight: 500; font-style: italic; }
+
+.section-heading {
+  font-family: var(--font-display); font-size: clamp(26px, 3vw, 32px);
+  letter-spacing: -0.015em; margin: clamp(64px, 8vw, 96px) 0 28px; font-weight: 400;
+}
+.section-heading .small {
+  font-size: 13px; color: var(--text-3); font-family: var(--font-sans);
+  font-style: normal; letter-spacing: 0.08em; text-transform: uppercase;
+  font-weight: 600; display: block; margin-bottom: 6px;
+}
+
+.role-line {
+  font-size: 14px; color: var(--text-2); padding: 18px 24px;
+  background: var(--surface-2); border-radius: var(--radius-sm);
+  margin-bottom: 48px; border: 1px solid var(--border); line-height: 1.55;
+}
+.role-line strong { color: var(--text); }
+
+.problem { padding: 28px 0; border-top: 1px solid var(--border); }
+.problem:last-of-type { border-bottom: 1px solid var(--border); }
+.problem-label {
+  font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--accent); font-weight: 600; margin-bottom: 10px;
+}
+.problem-title { font-weight: 600; font-size: 19px; margin-bottom: 12px; letter-spacing: -0.005em; }
+.problem-body { color: var(--text-2); font-size: 16px; }
+.problem-body blockquote {
+  font-style: italic; color: var(--text); padding: 8px 0 8px 16px;
+  border-left: 2px solid var(--border-strong); margin-top: 14px; font-size: 15px;
+}
+.problem-body .data { font-size: 14px; color: var(--text-3); margin-top: 8px; display: block; font-feature-settings: "tnum"; }
+
+.landscape {
+  background: var(--surface); border: 1px solid var(--border);
+  padding: clamp(24px, 3vw, 36px); border-radius: var(--radius);
+  margin: 48px 0; font-size: 16px;
+}
+.landscape p { margin-bottom: 14px; color: var(--text-2); }
+.landscape p:last-child { margin-bottom: 0; }
+.landscape strong { color: var(--text); font-weight: 600; }
+
+.success-metric {
+  padding: 24px 28px; background: var(--accent-soft);
+  border-radius: var(--radius-sm); border-left: 3px solid var(--accent);
+  margin: 32px 0; font-size: 16px; color: var(--text);
+}
+.success-metric strong { color: var(--accent); }
+
+.iteration { margin: clamp(56px, 7vw, 72px) 0; padding-top: 40px; border-top: 1px solid var(--border); }
+.iteration-header { display: flex; align-items: baseline; gap: 18px; margin-bottom: 20px; flex-wrap: wrap; }
+.iteration-num { font-family: var(--font-display); font-size: clamp(32px, 3.5vw, 40px); color: var(--text-3); line-height: 1; letter-spacing: -0.02em; font-weight: 400; }
+.iteration-title { font-size: clamp(19px, 2vw, 22px); font-weight: 600; flex: 1; letter-spacing: -0.008em; line-height: 1.3; }
+.iteration-status {
+  font-size: 11px; letter-spacing: 0.08em; padding: 4px 10px;
+  border-radius: 100px; font-weight: 600; text-transform: uppercase;
+}
+.iteration-status.won { background: var(--good-soft); color: var(--good); }
+.iteration-status.killed { background: var(--bad-soft); color: var(--bad); }
+.iteration-status.partial { background: var(--warn-soft); color: var(--warn); }
+.iteration-status.tackled { background: var(--surface-2); color: var(--text-2); font-size: 11px; }
+
+.iter-label { font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-3); font-weight: 600; margin: 28px 0 10px; }
+.iter-body { color: var(--text); font-size: 16px; line-height: 1.65; }
+.iter-body p { margin-bottom: 12px; }
+
+.alternatives { list-style: none; padding: 0; margin: 0; }
+.alternatives li {
+  padding: 14px 0; border-top: 1px dashed var(--border);
+  font-size: 15px; color: var(--text-2); line-height: 1.55;
+}
+.alternatives li:first-child { border-top: none; padding-top: 6px; }
+.alternatives li em { color: var(--text); font-weight: 500; font-style: italic; }
+
+.chosen {
+  background: var(--surface); border: 1px solid var(--border);
+  border-left: 3px solid var(--accent); padding: 18px 22px;
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  margin-top: 16px; font-size: 16px; color: var(--text);
+}
+.result { padding: 18px 0 4px; font-weight: 500; color: var(--text); }
+.result strong { color: var(--accent); }
+.insight { font-style: italic; color: var(--text-2); font-size: 15px; padding: 12px 0 0; }
+.insight::before { content: "→ "; color: var(--accent); font-style: normal; margin-right: 4px; font-weight: 600; }
+
+.collab {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: clamp(24px, 3vw, 36px); margin: 56px 0 32px;
+}
+.collab h3 { font-family: var(--font-display); font-size: clamp(20px, 2.2vw, 24px); letter-spacing: -0.01em; margin-bottom: 18px; font-weight: 400; }
+.collab p { margin-bottom: 14px; color: var(--text-2); font-size: 16px; }
+.collab p strong { color: var(--text); font-weight: 600; }
+.collab p:last-child { margin-bottom: 0; }
+
+.outcome-stats {
+  display: grid; grid-template-columns: repeat(2, 1fr); gap: 1px;
+  background: var(--border); border: 1px solid var(--border);
+  border-radius: var(--radius); overflow: hidden; margin: 32px 0 24px;
+}
+.stat { background: var(--surface); padding: 24px 26px; transition: background .25s; }
+.stat:hover { background: var(--accent-soft); }
+.stat-label { font-size: 13px; color: var(--text-2); margin-bottom: 10px; line-height: 1.4; }
+.stat-value {
+  font-family: var(--font-display); font-size: clamp(24px, 2.6vw, 30px); line-height: 1.1;
+  letter-spacing: -0.015em; color: var(--text); font-weight: 400; font-feature-settings: "tnum";
+}
+.stat-value .arrow { color: var(--text-3); margin: 0 6px; font-size: 0.8em; }
+.stat-value .to { color: var(--accent); }
+.stat-delta { font-size: 13px; color: var(--good); margin-top: 6px; font-weight: 500; }
+.outcome-extra { font-size: 15px; color: var(--text-2); margin-top: 16px; }
+
+.reflection {
+  background: var(--accent-soft); border-left: 3px solid var(--accent);
+  padding: clamp(22px, 3vw, 28px) clamp(24px, 3vw, 32px); margin: 48px 0 0;
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  font-size: 16px; color: var(--text); line-height: 1.65;
+}
+.reflection h3 { font-family: var(--font-display); font-size: clamp(20px, 2.2vw, 22px); margin-bottom: 12px; letter-spacing: -0.01em; color: var(--accent); font-weight: 400; }
+
+/* Scroll-triggered fade-up (set by JS) */
+.fade-when-visible { opacity: 0; transform: translateY(18px); transition: opacity .7s var(--ease-out), transform .7s var(--ease-out); }
+.fade-when-visible.in-view { opacity: 1; transform: translateY(0); }
+
+/* Reference */
+.ref {
+  border-bottom: 1px dotted var(--text-3); cursor: pointer;
+  transition: color .15s var(--ease-out), border-color .15s var(--ease-out);
+  position: relative; white-space: nowrap; color: inherit; text-decoration: none;
+}
+.ref:hover { color: var(--accent); border-bottom-color: var(--accent); border-bottom-style: solid; }
+.ref:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 2px; }
+.ref::after {
+  content: "↗"; font-size: 0.65em; margin-left: 2px; opacity: 0.55;
+  font-weight: 700; vertical-align: super; display: inline-block; line-height: 1;
+  transition: opacity .15s, transform .2s var(--ease-spring);
+}
+.ref:hover::after { opacity: 1; transform: translate(1px, -2px); }
+
+/* Hover preview */
+.hover-preview {
+  position: fixed; pointer-events: none; opacity: 0;
+  transform: translateY(6px) scale(.98);
+  transition: opacity .2s var(--ease-out), transform .25s var(--ease-out);
+  z-index: 1000; width: 320px; background: var(--surface);
+  border: 1px solid var(--border-strong); border-radius: var(--radius);
+  box-shadow: var(--shadow-md); overflow: hidden; font-family: var(--font-sans);
+}
+.hover-preview.visible { opacity: 1; transform: translateY(0) scale(1); }
+.hover-preview-image {
+  width: 100%; height: 184px; display: flex; align-items: center; justify-content: center;
+  color: rgba(255,255,255,0.95); font-family: var(--font-display); font-weight: 400;
+  font-size: 24px; letter-spacing: -0.015em; position: relative; overflow: hidden; background: #1A1A1A;
+}
+.hover-preview-image::before {
+  content: ""; position: absolute; inset: 0;
+  background: linear-gradient(135deg, rgba(255,255,255,0.08), rgba(0,0,0,0.15));
+  pointer-events: none; z-index: 1;
+}
+.hover-preview-image::after {
+  content: "PLACEHOLDER"; position: absolute; top: 10px; right: 12px;
+  font-family: var(--font-sans); font-size: 9px; letter-spacing: 0.14em;
+  font-weight: 600; color: rgba(255,255,255,0.55); z-index: 2;
+}
+.hover-preview-image span { position: relative; z-index: 1; padding: 0 16px; text-align: center; }
+.hover-preview-image.has-image { background: #FFFFFF; }
+.hover-preview-image.has-image::before,
+.hover-preview-image.has-image::after,
+.hover-preview-image.has-image span { display: none; }
+.hover-preview-image.has-image img { width: 100%; height: 100%; object-fit: cover; display: block; z-index: 0; }
+.hover-preview-content { padding: 14px 16px 14px; }
+.hover-preview-title { font-size: 14px; font-weight: 600; margin-bottom: 4px; letter-spacing: -0.005em; color: var(--text); }
+.hover-preview-caption { font-size: 13px; color: var(--text-2); line-height: 1.45; margin-bottom: 10px; }
+.hover-preview-source { font-size: 11px; color: var(--accent); text-decoration: none; letter-spacing: 0.04em; font-weight: 600; text-transform: uppercase; }
+
+/* Next case CTA */
+.next-case {
+  border-top: 1px solid var(--border); padding: clamp(64px, 8vw, 96px) 0 clamp(80px, 10vw, 120px);
+  margin-top: clamp(64px, 8vw, 96px); background: var(--surface-2);
+}
+.next-case-eyebrow {
+  font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--text-3); font-weight: 600; margin-bottom: 18px;
+}
+.next-case-link { display: block; text-decoration: none; color: inherit; }
+.next-case-headline {
+  font-family: var(--font-display); font-size: clamp(36px, 5.5vw, 72px);
+  line-height: 1.0; letter-spacing: -0.025em; color: var(--text);
+  margin-bottom: 20px; transition: color .3s var(--ease-out), transform .35s var(--ease-out); font-weight: 400;
+}
+.next-case-link:hover .next-case-headline { color: var(--accent); transform: translateX(6px); }
+.next-case-description {
+  font-family: var(--font-display); font-style: italic; font-size: clamp(17px, 1.8vw, 20px);
+  color: var(--text-2); max-width: 600px; line-height: 1.4; margin-bottom: 28px;
+}
+.next-case-arrow {
+  display: inline-flex; align-items: center; gap: 10px;
+  font-size: 14px; font-weight: 600; color: var(--accent);
+  letter-spacing: 0.01em; transition: gap .35s var(--ease-out);
+}
+.next-case-link:hover .next-case-arrow { gap: 18px; }
+.next-case-arrow::after { content: "→"; font-size: 18px; display: inline-block; transition: transform .35s var(--ease-out); }
+.next-case-link:hover .next-case-arrow::after { transform: translateX(4px); }
+
+.back-to-all { padding: 32px 0 0; border-top: 1px solid var(--border); margin-top: 40px; }
+.back-to-all a {
+  font-size: 13px; color: var(--text-2); text-decoration: none;
+  display: inline-flex; align-items: center; gap: 8px;
+  transition: color .15s var(--ease-out), gap .25s var(--ease-out);
+}
+.back-to-all a::before { content: "←"; font-size: 16px; transition: transform .25s var(--ease-out); }
+.back-to-all a:hover { color: var(--accent); gap: 12px; }
+.back-to-all a:hover::before { transform: translateX(-3px); }
+
+/* Footer */
+.footer { padding: clamp(64px, 8vw, 96px) 0 clamp(56px, 7vw, 80px); font-size: 15px; color: var(--text-2); border-top: 1px solid var(--border); }
+.footer h2 { font-family: var(--font-display); font-size: clamp(28px, 3.5vw, 44px); letter-spacing: -0.02em; color: var(--text); margin-bottom: 20px; font-weight: 400; }
+.footer h2 em { color: var(--accent); font-style: italic; }
+.footer-links { display: flex; gap: 22px; margin-top: 24px; font-size: 14px; flex-wrap: wrap; }
+.footer-links a {
+  color: var(--text); text-decoration: none;
+  border-bottom: 1px solid var(--border-strong); padding-bottom: 2px;
+  transition: color .2s var(--ease-out), border-color .2s var(--ease-out), transform .25s var(--ease-spring);
+}
+.footer-links a:hover { color: var(--accent); border-color: var(--accent); transform: translateY(-1px); }
+.footer-meta { font-size: 12px; color: var(--text-3); margin-top: 56px; letter-spacing: 0.04em; }
+
+p strong { font-weight: 600; }
+p em { font-style: italic; }
+.muted { color: var(--text-3); }
+
+/* =========================================================
+   Reading progress bar
+   ========================================================= */
+.read-progress {
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  height: 2px;
+  width: 0%;
+  background: var(--accent);
+  transition: width .12s linear, background .3s var(--ease-out);
+  pointer-events: none;
+  box-shadow: 0 0 8px var(--accent);
+  opacity: 0.85;
+  z-index: 51;
+}
+body.landing .read-progress { display: none; }
+
+/* =========================================================
+   Floating action buttons (FAB)
+   ========================================================= */
+.fab-cluster {
+  position: fixed;
+  right: 24px; bottom: 24px;
+  z-index: 60;
+  display: flex;
+  gap: 10px;
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity .3s var(--ease-out), transform .3s var(--ease-out);
+  pointer-events: none;
+}
+.fab-cluster.visible {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+.fab {
+  position: relative;
+  width: 44px; height: 44px;
+  border-radius: 50%;
+  background: var(--surface);
+  border: 1px solid var(--border-strong);
+  display: flex; align-items: center; justify-content: center;
+  color: var(--text-2);
+  cursor: pointer;
+  box-shadow: var(--shadow-md);
+  font-family: var(--font-sans);
+  transition: transform .22s var(--ease-spring),
+              background .22s var(--ease-out),
+              color .22s var(--ease-out),
+              border-color .22s var(--ease-out),
+              opacity .25s var(--ease-out);
+}
+.fab:hover {
+  transform: translateY(-3px);
+  background: var(--accent);
+  color: #FFFFFF;
+  border-color: var(--accent);
+}
+.fab:active { transform: translateY(-1px) scale(.96); }
+.fab:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+.fab.hidden {
+  opacity: 0;
+  pointer-events: none;
+  transform: scale(.7) rotate(-8deg);
+}
+.fab svg { width: 18px; height: 18px; stroke-width: 2.1; display: block; }
+
+/* Tooltip on hover */
+.fab[data-tooltip]::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  bottom: calc(100% + 10px);
+  left: 50%;
+  transform: translateX(-50%) translateY(4px);
+  background: var(--text);
+  color: #FFFFFF;
+  padding: 5px 10px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 500;
+  white-space: nowrap;
+  letter-spacing: 0.02em;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .18s var(--ease-out), transform .22s var(--ease-out);
+}
+.fab[data-tooltip]::before {
+  content: "";
+  position: absolute;
+  bottom: calc(100% + 4px);
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0; height: 0;
+  border: 4px solid transparent;
+  border-top-color: var(--text);
+  opacity: 0;
+  transition: opacity .18s var(--ease-out);
+}
+.fab:hover::after,
+.fab:focus-visible::after { opacity: 1; transform: translateX(-50%) translateY(0); }
+.fab:hover::before,
+.fab:focus-visible::before { opacity: 1; }
+
+/* Visual divider between back-button and scroll-buttons */
+.fab-divider {
+  align-self: center;
+  width: 1px;
+  height: 22px;
+  background: var(--border-strong);
+  margin: 0 2px;
+  opacity: .7;
+}
+
+/* =========================================================
+   Audio: listen chip, case CTA, narrating highlight, player, indicator
+   ========================================================= */
+
+/* "1 min listen" chip on landing cards */
+.audio-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 9px 3px 7px;
+  border-radius: 100px;
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  font-family: inherit;
+  border: 0;
+  cursor: pointer;
+  transition: background .22s var(--ease-out),
+              transform .25s var(--ease-spring),
+              box-shadow .25s var(--ease-out);
+  user-select: none;
+}
+.audio-chip:hover {
+  background: var(--accent);
+  color: #FFFFFF;
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-sm);
+}
+.audio-chip:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.audio-chip svg { width: 12px; height: 12px; flex-shrink: 0; }
+.audio-chip .audio-chip-icon {
+  animation: audioPulse 2.4s ease-in-out infinite;
+}
+.audio-chip:hover .audio-chip-icon { animation: none; }
+@keyframes audioPulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.18); }
+}
+
+/* "Play 1-min summary" CTA below case-hero-meta */
+.case-listen-cta {
+  margin-top: 24px;
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  padding: 10px 18px 10px 12px;
+  background: var(--surface);
+  border: 1px solid var(--border-strong);
+  color: var(--text);
+  border-radius: 100px;
+  font-size: 14px;
+  font-weight: 500;
+  font-family: inherit;
+  cursor: pointer;
+  transition: background .25s var(--ease-out),
+              color .25s var(--ease-out),
+              border-color .25s var(--ease-out),
+              transform .25s var(--ease-spring),
+              box-shadow .25s var(--ease-out);
+}
+.case-listen-cta:hover {
+  background: var(--accent);
+  color: #FFFFFF;
+  border-color: var(--accent);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
+}
+.case-listen-cta:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+.case-listen-cta-icon {
+  width: 26px; height: 26px; border-radius: 50%;
+  background: var(--accent); color: #FFFFFF;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  transition: background .25s var(--ease-out), transform .3s var(--ease-spring);
+}
+.case-listen-cta:hover .case-listen-cta-icon {
+  background: #FFFFFF; color: var(--accent);
+  transform: scale(1.05);
+}
+.case-listen-cta-icon svg { width: 11px; height: 11px; margin-left: 1px; }
+
+/* Narrating — animated text-level highlight (marker-pen sweep) */
+.narrating {
+  background-image: linear-gradient(to right,
+    rgba(184, 51, 16, 0.22),
+    rgba(184, 51, 16, 0.22));
+  background-repeat: no-repeat;
+  background-size: 0% 100%;
+  background-position: 0 0;
+  transition: background-size var(--narrate-duration, 12s) linear;
+  border-radius: 3px;
+  padding: 0.06em 0.22em;
+  margin-left: -0.22em;
+  margin-right: -0.22em;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+.narrating.swept {
+  background-size: 100% 100%;
+}
+.narrating.fading {
+  transition: opacity .55s ease-out;
+  opacity: 0;
+}
+/* Per-case accent color for the sweep */
+body.case-a .narrating { background-image: linear-gradient(to right, rgba(184, 51, 16, 0.22), rgba(184, 51, 16, 0.22)); }
+body.case-b .narrating { background-image: linear-gradient(to right, rgba(27, 83, 100, 0.24), rgba(27, 83, 100, 0.24)); }
+body.case-c .narrating { background-image: linear-gradient(to right, rgba(139, 105, 20, 0.26), rgba(139, 105, 20, 0.26)); }
+
+/* Big number — glow instead of background (cleaner on huge type) */
+.stat-value.narrating,
+.case-hero-number.narrating {
+  background-image: none;
+  background-size: auto;
+  padding: 0;
+  margin: 0;
+  text-shadow: 0 0 0 transparent;
+  transition: text-shadow var(--narrate-duration, 12s) linear;
+}
+.stat-value.narrating.swept,
+.case-hero-number.narrating.swept {
+  text-shadow: 0 0 40px var(--accent), 0 0 14px var(--accent);
+}
+
+/* Blockquote — also get a subtle left rail in addition to the sweep */
+blockquote.narrating {
+  box-shadow: inset 3px 0 0 var(--accent);
+  padding-left: 0.4em;
+  margin-left: -0.4em;
+}
+
+/* Floating audio player */
+.audio-player {
+  position: fixed;
+  bottom: 88px;
+  left: 50%;
+  transform: translateX(-50%) translateY(20px);
+  background: #0A0A0A;
+  color: #FFFFFF;
+  border-radius: 100px;
+  padding: 8px 8px 8px 8px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 20px 56px rgba(0,0,0,0.28), 0 6px 16px rgba(0,0,0,0.18);
+  z-index: 70;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .28s var(--ease-out), transform .35s var(--ease-out);
+  min-width: 420px;
+  max-width: 620px;
+  font-family: var(--font-sans);
+}
+.audio-player.visible {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+  pointer-events: auto;
+}
+.ap-play {
+  width: 38px; height: 38px;
+  border-radius: 50%;
+  background: var(--accent);
+  border: none;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  color: #FFFFFF;
+  flex-shrink: 0;
+  transition: transform .22s var(--ease-spring), background .22s var(--ease-out);
+}
+.ap-play:hover { transform: scale(1.08); }
+.ap-play:active { transform: scale(.95); }
+.ap-play svg { width: 13px; height: 13px; margin-left: 1px; }
+.ap-meta {
+  display: flex; flex-direction: column;
+  flex: 1; min-width: 0;
+  padding: 1px 0;
+}
+.ap-title {
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.45);
+  font-weight: 700;
+  margin-bottom: 3px;
+}
+.ap-segment {
+  font-size: 13px;
+  color: #FFFFFF;
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.3;
+}
+.ap-track {
+  width: 100%;
+  height: 3px;
+  background: rgba(255,255,255,0.16);
+  border-radius: 100px;
+  margin-top: 7px;
+  position: relative;
+  cursor: pointer;
+}
+.ap-track:hover { height: 4px; margin-top: 6px; }
+.ap-fill {
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  background: var(--accent);
+  border-radius: 100px;
+  width: 0%;
+  transition: width .12s linear;
+}
+.ap-controls {
+  display: flex; align-items: center; gap: 6px; flex-shrink: 0;
+}
+.ap-speed {
+  background: rgba(255,255,255,0.10);
+  border: none;
+  color: rgba(255,255,255,0.92);
+  font-size: 11px;
+  font-weight: 700;
+  font-family: inherit;
+  padding: 6px 10px;
+  border-radius: 100px;
+  cursor: pointer;
+  transition: background .2s, color .2s;
+  font-feature-settings: "tnum";
+  min-width: 38px;
+}
+.ap-speed:hover { background: rgba(255,255,255,0.20); }
+.ap-close {
+  width: 32px; height: 32px;
+  background: rgba(255,255,255,0.10);
+  border: none;
+  border-radius: 50%;
+  color: rgba(255,255,255,0.85);
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: background .2s, color .2s, transform .2s;
+}
+.ap-close:hover { background: rgba(255,255,255,0.22); color: #FFFFFF; transform: scale(1.06); }
+.ap-close svg { width: 12px; height: 12px; }
+
+/* Reading position indicator — vertical accent line at left margin */
+.narrate-indicator {
+  position: fixed;
+  left: max(12px, calc((100vw - var(--max-w-cards)) / 2 - 8px));
+  top: 90px;
+  bottom: 110px;
+  width: 2px;
+  background: var(--border);
+  border-radius: 100px;
+  z-index: 30;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .35s var(--ease-out);
+}
+.narrate-indicator.visible { opacity: 1; }
+.narrate-indicator-track {
+  position: absolute;
+  left: -1px;
+  width: 4px;
+  background: var(--accent);
+  border-radius: 100px;
+  height: 0;
+  top: 0;
+  transition: height .25s var(--ease-out), top .25s var(--ease-out);
+  box-shadow: 0 0 10px var(--accent);
+}
+.narrate-indicator-dot {
+  position: absolute;
+  left: -3px;
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 0 4px rgba(184,51,16, 0.12), 0 0 14px var(--accent);
+  top: 0;
+  transition: top .25s var(--ease-out);
+}
+body.case-b .narrate-indicator-dot { box-shadow: 0 0 0 4px rgba(27,83,100, 0.16), 0 0 14px var(--accent); }
+body.case-c .narrate-indicator-dot { box-shadow: 0 0 0 4px rgba(139,105,20, 0.16), 0 0 14px var(--accent); }
+
+@media (max-width: 1180px) {
+  .narrate-indicator { display: none; }
+}
+
+/* =========================================================
+   RESPONSIVE — 1920+ down to 320px
+   ========================================================= */
+
+/* Ultra-wide (1920+) — cap widths, no other changes */
+@media (min-width: 1600px) {
+  .container-cards { max-width: 1280px; }
+}
+
+/* Standard desktop (1280–1599) — defaults handle this */
+
+/* Small desktop / large tablet (1024–1279) */
+@media (max-width: 1279px) {
+  .case-cards { gap: 20px; }
+}
+
+/* Tablet (720–1023) */
+@media (max-width: 1023px) {
+  .case-cards { grid-template-columns: 1fr 1fr; }
+  .case-cards > :nth-child(3) { grid-column: 1 / -1; max-width: 50%; }
+}
+
+/* Mobile landscape / small tablet (480–719) */
+@media (max-width: 719px) {
+  body { font-size: 16px; }
+  .container, .container-hero, .container-wide, .container-cards { padding: 0 22px; }
+  .topnav-inner, .case-switcher-inner { padding-left: 22px; padding-right: 22px; }
+  .topnav-inner {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 4px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+  .topnav-brand { font-size: 14px; }
+  .topnav-links {
+    gap: 8px;
+    font-size: 12px;
+    flex-wrap: wrap;
+    width: 100%;
+    justify-content: center;
+  }
+  .topnav-links .role { display: inline; font-size: 11px; color: var(--text-3); }
+  .topnav-links .topnav-sep { color: var(--border-strong); }
+  /* Case switcher — show only current tab with prev/next arrows */
+  /* Adjust sticky top to clear the taller two-line topnav */
+  .case-switcher { top: 64px; }
+  .case-switcher-inner {
+    justify-content: space-between;
+    gap: 10px;
+    padding-top: 8px;
+    padding-bottom: 8px;
+  }
+  .case-switcher-label { display: none; }
+  .case-switcher a { display: none; }
+  .case-switcher a.current {
+    display: inline-block;
+    flex: 1;
+    text-align: center;
+    padding: 6px 4px;
+    font-size: 13px;
+    font-weight: 600;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .case-switcher a.current::after { display: none; } /* drop underline; the arrows make it obvious */
+  .case-nav-arrow { display: inline-flex; }
+  .case-cards { grid-template-columns: 1fr; gap: 18px; }
+  .case-cards > :nth-child(3) { max-width: none; }
+  .case-card-content { padding: 22px 22px 24px; }
+  .hero-pills { gap: 8px; }
+  .hero-pill { font-size: 12px; padding: 6px 12px; }
+  .case-hero-meta { font-size: 12px; gap: 8px; }
+  .opening blockquote { padding-left: 20px; }
+  .iteration { padding-top: 32px; }
+  .outcome-stats { grid-template-columns: 1fr; }
+  .role-line { padding: 16px 18px; font-size: 13px; }
+  .ref { white-space: normal; }
+  .hover-preview { width: 280px; }
+  .stat { padding: 20px 22px; }
+  .fab-cluster { right: 16px; bottom: 16px; gap: 8px; }
+  .fab { width: 40px; height: 40px; }
+  .fab svg { width: 17px; height: 17px; }
+  .fab-divider { height: 18px; margin: 0 1px; }
+  .audio-player {
+    min-width: auto; width: calc(100% - 24px);
+    left: 12px; right: 12px;
+    transform: translateY(20px);
+    padding: 7px 7px 7px 7px;
+    bottom: 76px;
+  }
+  .audio-player.visible { transform: translateY(0); }
+  .ap-controls { gap: 4px; }
+  .ap-speed { padding: 5px 8px; min-width: 32px; font-size: 10px; }
+  .ap-close { width: 28px; height: 28px; }
+}
+
+/* Small mobile (320–479) */
+@media (max-width: 479px) {
+  .container, .container-hero, .container-wide, .container-cards { padding: 0 18px; }
+  .topnav-inner, .case-switcher-inner { padding-left: 18px; padding-right: 18px; }
+  .topnav-inner {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 3px;
+    padding: 10px 18px;
+  }
+  .topnav-brand { font-size: 14px; }
+  .topnav-links { gap: 8px; font-size: 12px; width: 100%; justify-content: center; flex-wrap: wrap; }
+  .case-switcher { top: 64px; }
+  .landing-hero { padding: 56px 0 64px; }
+  .hero-narrative { font-size: 24px; }
+  .hero-pills { flex-direction: column; align-items: flex-start; }
+  .hero-pill { width: auto; }
+  .case-card-image-placeholder { font-size: 30px; }
+  .case-hero-number { font-size: 60px; }
+  .case-hero-caption { font-size: 17px; }
+  .opening blockquote { font-size: 20px; padding-left: 16px; }
+  .iteration-num { font-size: 28px; }
+  .section-heading { font-size: 24px; margin-top: 56px; }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+@media print {
+  .topnav, .case-switcher, .hover-preview, .next-case, .back-to-all { display: none; }
+  .case { padding: 0; }
+  .view { display: block !important; opacity: 1 !important; transform: none !important; }
+  .fade-when-visible { opacity: 1 !important; transform: none !important; }
+}
+</style>
+</head>
+<body class="landing">
+
+<!-- =========================================================
+     TOP NAV
+     ========================================================= -->
+<nav class="topnav">
+  <div class="topnav-inner">
+    <a href="#/" class="topnav-brand">Vikram Rajak</a>
+    <div class="topnav-links">
+      <span class="role">Senior UX UI Designer</span>
+      <span class="topnav-sep">·</span>
+      <a href="mailto:vrajak115@gmail.com">vrajak115@gmail.com</a>
+      <span class="topnav-sep">·</span>
+      <a href="#" data-resume>Resume</a>
+    </div>
+  </div>
+  <div class="read-progress" id="read-progress" role="progressbar" aria-label="Reading progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"></div>
+</nav>
+
+<!-- =========================================================
+     CASE SWITCHER
+     ========================================================= -->
+<nav class="case-switcher" aria-label="Case studies">
+  <div class="case-switcher-inner">
+    <span class="case-switcher-label">Case studies</span>
+    <button class="case-nav-arrow case-nav-prev" data-case-nav="prev" type="button" aria-label="Previous case study">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <polyline points="15 18 9 12 15 6"/>
+      </svg>
+    </button>
+    <a href="#case-a">A · Step 3 Discount Screen</a>
+    <a href="#case-b">B · AI Trust &amp; Explainability</a>
+    <a href="#case-c">C · Decision Dashboard</a>
+    <button class="case-nav-arrow case-nav-next" data-case-nav="next" type="button" aria-label="Next case study">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <polyline points="9 18 15 12 9 6"/>
+      </svg>
+    </button>
+  </div>
+</nav>
+
+<!-- =========================================================
+     VIEW · LANDING
+     ========================================================= -->
+<div class="view active" data-view="landing">
+
+<section class="landing-hero">
+  <div class="container-hero">
+    <div class="landing-hero-eyebrow"><span class="available-dot"></span>Senior UX UI Designer · Available for senior roles · 2026</div>
+
+    <p class="hero-narrative">
+      I cut the time planners spend setting promo discounts in PromoSmart from <em>47 minutes to 12</em>. I designed how our AI explains its recommendations and got acceptance from <em>23% to 71%</em>. I rebuilt the Decision Dashboard until our biggest customer <em>deleted their parallel Excel</em>.
+      <span class="credit">Senior UX UI Designer with 4+ years making retail AI useful for the planners, buyers, and merchants who actually run the business.</span>
+      <span class="tagline">Useful beats clever.</span>
+    </p>
+
+    <div class="hero-pills">
+      <span class="hero-pill"><strong>4+ years</strong> in retail B2B SaaS</span>
+      <span class="hero-pill">Currently shipping in <strong>PromoSmart</strong></span>
+      <span class="hero-pill">Based in <strong>Bangalore</strong>, India</span>
+    </div>
+  </div>
+</section>
+
+<section class="cases-section">
+  <div class="cases-section-label">Selected work · 2024</div>
+  <div class="container-cards">
+    <div class="case-cards">
+
+      <a class="case-card card-a" href="#case-a">
+        <div class="case-card-image" data-card-slug="case-a-cover">
+          <span class="case-card-label">Case A · Step 3 Discount Screen</span>
+          <div class="case-card-image-placeholder">47 min → 12 min</div>
+        </div>
+        <div class="case-card-content">
+          <div class="case-card-meta">
+            <span><strong>7 min read</strong></span>
+            <span class="audio-chip" data-listen="case-a" role="button" tabindex="0" aria-label="Play 1-minute audio summary of Case A">
+              <svg class="audio-chip-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M3 14v-2a9 9 0 0 1 18 0v2"/><path d="M21 19a2 2 0 0 1-2 2h-1v-7h3v5z"/><path d="M3 19a2 2 0 0 0 2 2h1v-7h-3v5z"/>
+              </svg>
+              1 min listen
+            </span>
+            <span class="dot">·</span>
+            <span>12 weeks</span><span class="dot">·</span><span>2024</span>
+          </div>
+          <div class="case-card-headline">47 min → 12 min</div>
+          <div class="case-card-description">The screen that kept planners running a parallel Excel — and the four iterations it took to fix it.</div>
+          <div class="case-card-cta">Read case study</div>
+        </div>
+      </a>
+
+      <a class="case-card card-b" href="#case-b">
+        <div class="case-card-image" data-card-slug="case-b-cover">
+          <span class="case-card-label">Case B · AI Trust &amp; Explainability</span>
+          <div class="case-card-image-placeholder">23% → 71%</div>
+        </div>
+        <div class="case-card-content">
+          <div class="case-card-meta">
+            <span><strong>7 min read</strong></span>
+            <span class="audio-chip" data-listen="case-b" role="button" tabindex="0" aria-label="Play 1-minute audio summary of Case B">
+              <svg class="audio-chip-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M3 14v-2a9 9 0 0 1 18 0v2"/><path d="M21 19a2 2 0 0 1-2 2h-1v-7h3v5z"/><path d="M3 19a2 2 0 0 0 2 2h1v-7h-3v5z"/>
+              </svg>
+              1 min listen
+            </span>
+            <span class="dot">·</span>
+            <span>6 weeks</span><span class="dot">·</span><span>2024</span>
+          </div>
+          <div class="case-card-headline">23% → 71%</div>
+          <div class="case-card-description">Acceptance rate on our AI's promo recommendations. Four design moves got us there — none of them was the AI getting smarter.</div>
+          <div class="case-card-cta">Read case study</div>
+        </div>
+      </a>
+
+      <a class="case-card card-c" href="#case-c">
+        <div class="case-card-image" data-card-slug="case-c-cover">
+          <span class="case-card-label">Case C · Decision Dashboard</span>
+          <div class="case-card-image-placeholder">4.7 → 1.1<span class="unit">&nbsp;/wk</span></div>
+        </div>
+        <div class="case-card-content">
+          <div class="case-card-meta">
+            <span><strong>7 min read</strong></span>
+            <span class="audio-chip" data-listen="case-c" role="button" tabindex="0" aria-label="Play 1-minute audio summary of Case C">
+              <svg class="audio-chip-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M3 14v-2a9 9 0 0 1 18 0v2"/><path d="M21 19a2 2 0 0 1-2 2h-1v-7h3v5z"/><path d="M3 19a2 2 0 0 0 2 2h1v-7h-3v5z"/>
+              </svg>
+              1 min listen
+            </span>
+            <span class="dot">·</span>
+            <span>8 weeks</span><span class="dot">·</span><span>2024</span>
+          </div>
+          <div class="case-card-headline">4.7 → 1.1 <span class="unit">/ week</span></div>
+          <div class="case-card-description">Excel exports per planner. Our biggest customer was paying us to be ignored — until they deleted the spreadsheet.</div>
+          <div class="case-card-cta">Read case study</div>
+        </div>
+      </a>
+
+    </div>
+  </div>
+</section>
+
+<section class="about-strip">
+  <div class="container-wide">
+    <h2>I make retail AI useful for the people who actually use it.</h2>
+    <p>Most of my work sits inside <strong>PromoSmart</strong>, the AI-native promo optimization tool inside Impact Analytics' platform. The users are category managers, marketing leads, and super users at global retailers — people who plan hundreds of promotions a month and used to do most of that planning in Excel. My job is to make the tool fast enough, legible enough, and trustworthy enough that they don't have to.</p>
+    <p>Before Impact Analytics I interned at Lythouse. I work closely with product, engineering, and data science — most of what I ship is co-designed with one or more of them.</p>
+  </div>
+</section>
+
+</div><!-- /view landing -->
+
+<!-- =========================================================
+     VIEW · CASE A
+     ========================================================= -->
+<div class="view" data-view="case-a">
+<article class="case">
+  <div class="container">
+
+    <header class="case-hero">
+      <div class="case-hero-eyebrow">Case Study A · Step 3 Discount Screen</div>
+      <div class="case-hero-number">47 min → 12 min</div>
+      <div class="case-hero-caption">The screen that kept planners running a parallel Excel — and the four iterations it took to fix it.</div>
+      <div class="case-hero-meta">
+        <strong>7 min read</strong><span class="dot">·</span><span>Lead designer</span>
+        <span class="dot">·</span><span>12 weeks</span><span class="dot">·</span><span>2024</span>
+      </div>
+      <button class="case-listen-cta" data-listen="case-a" type="button" aria-label="Play 1-minute audio summary">
+        <span class="case-listen-cta-icon">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><polygon points="6 4 20 12 6 20 6 4"/></svg>
+        </span>
+        Play 1-min summary
+      </button>
+    </header>
+
+    <section class="opening fade-when-visible">
+      <blockquote>"Step 3 is the main problem."</blockquote>
+      <p>That was the PM's verdict in our May review. One sentence. He didn't soften it.</p>
+      <p>He was right to be blunt. Step 3 was where a category manager at our largest customer finalised <strong>~300 promos a month</strong>, across <strong>10,000+ SKU-store rows</strong>. PostHog said they spent <strong>47 minutes per promo</strong> there — most of it scrolling. CSM said it was already showing up in two enterprise renewal conversations as a friction point.</p>
+      <p>If I couldn't fix Step 3 in three months, we were heading into Q2 renewals naked.</p>
+    </section>
+
+    <div class="role-line fade-when-visible">
+      <strong>Role.</strong> Lead designer (Senior UX UI Designer)
+      &nbsp;·&nbsp; <strong>Team.</strong> 1 frontend engineer + 1 data scientist
+      &nbsp;·&nbsp; <strong>Duration.</strong> 12 weeks
+      &nbsp;·&nbsp; <strong>Scale.</strong> Tenant datasets up to 200,000 rows
+    </div>
+
+    <h2 class="section-heading"><span class="small">Research</span>What the data said — four problems</h2>
+
+    <div class="problem fade-when-visible"><div class="problem-label">Problem 01</div><div class="problem-title">Finding what matters</div><div class="problem-body">Planners couldn't tell which of 10,000+ rows needed their attention.<blockquote>"I scroll for 20 minutes and still don't know if I missed a SKU." — Apparel category manager (CSM interview)</blockquote><span class="data">PostHog · 14 undo events per session.</span></div></div>
+    <div class="problem fade-when-visible"><div class="problem-label">Problem 02</div><div class="problem-title">Time grain</div><div class="problem-body">Planners needed weekly / daily views; the table only showed promo-period summary.<blockquote>"If I want to see it per week, how do I do it?" — PM, May review</blockquote><span class="data">PostHog · 8.3 Excel-switch events per session (count of times a planner alt-tabbed from PromoSmart to Excel during a single Step 3 session).</span></div></div>
+    <div class="problem fade-when-visible"><div class="problem-label">Problem 03</div><div class="problem-title">Aggregation</div><div class="problem-body">The same screen had to serve three personas thinking at three altitudes — category, item, item × store.<blockquote>"Some weeks I plan the whole shirt category. Some weeks just one SKU."</blockquote></div></div>
+    <div class="problem fade-when-visible"><div class="problem-label">Problem 04</div><div class="problem-title">Analysis outside the tool</div><div class="problem-body">Planners did the <em>analysis</em> in Excel pivots, then came back to PromoSmart just to <em>enter</em> numbers.<blockquote>"Excel pivots tell me what's broken in 30 seconds. Your table tells me nothing."</blockquote></div></div>
+
+    <h2 class="section-heading"><span class="small">Prior art</span>Landscape scan</h2>
+    <div class="landscape fade-when-visible">
+      <p>Before designing, I scanned how five competitors handle dense planning grids — <span class="ref" data-ref-title="Oracle Retail (ORC)" data-ref-caption="Legacy execution-only promo tool." data-ref-source="oracle.com/retail" data-ref-url="https://www.oracle.com/in/retail/" data-ref-color="#C74634">Oracle Retail (ORC)</span>, <span class="ref" data-ref-title="Revionics · Promo dashboard" data-ref-caption="Confidence scores without 'why'." data-ref-source="revionics.com" data-ref-url="https://www.revionics.com/" data-ref-color="#003366">Revionics</span>, <span class="ref" data-ref-title="Blue Yonder · Promo screens" data-ref-caption="AI as black box." data-ref-source="blueyonder.com" data-ref-url="https://blueyonder.com/" data-ref-color="#00457C">Blue Yonder</span>, <span class="ref" data-ref-title="Cognira · Promo dashboard" data-ref-caption="Modern UI. Still execution-heavy." data-ref-source="cognira.com" data-ref-url="https://cognira.com/" data-ref-color="#1A365D">Cognira</span>, <span class="ref" data-ref-title="Eversight · Promo optimizer" data-ref-caption="Strongest AI-suggests-you-review pattern." data-ref-source="eversightai.com" data-ref-url="https://www.eversightai.com/" data-ref-color="#5C6BC0">Eversight</span>. Pattern: all of them pushed planners through 50–500-column tables with no exception-driven attention. None had a time-grain drawer.</p>
+      <p><strong>Internal precedent.</strong> <span class="ref" data-ref-title="MarkSmart · Variance alerts" data-ref-caption="Coloured exception chips on rows." data-ref-source="impactanalytics.ai" data-ref-url="https://www.impactanalytics.ai/solutions/markdown-optimization" data-ref-color="#B83310">MarkSmart's exception-alert pattern</span> was the closest pre-existing IA-internal solution. <span class="ref" data-ref-title="PriceSmart · Variance cells" data-ref-caption="Variance-coloured cells." data-ref-source="impactanalytics.ai" data-ref-url="https://www.impactanalytics.ai/solutions/pricing" data-ref-color="#B83310">PriceSmart</span> had a similar approach.</p>
+      <p><strong>Cross-industry inspiration.</strong> <span class="ref" data-ref-title="Notion · Database views" data-ref-caption="Grain switching over the same data." data-ref-source="notion.so" data-ref-url="https://www.notion.so/help/database-views" data-ref-color="#0F0F0F">Notion's database views</span>, <span class="ref" data-ref-title="Airtable · Grouping" data-ref-caption="Hierarchical row grouping." data-ref-source="airtable.com" data-ref-url="https://www.airtable.com/" data-ref-color="#F82B60">Airtable's grouping</span>, <span class="ref" data-ref-title="Linear · Filter chips" data-ref-caption="Tri-state filter pills." data-ref-source="linear.app" data-ref-url="https://linear.app/features" data-ref-color="#5E6AD2">Linear's filter chips</span>, <span class="ref" data-ref-title="Stripe · Data tables" data-ref-caption="Virtualization at scale." data-ref-source="stripe.com/dashboard" data-ref-url="https://stripe.com/dashboard" data-ref-color="#635BFF">Stripe's data tables</span>, and <span class="ref" data-ref-title="Excel · Pivot tables" data-ref-caption="The user's actual mental model — the real competitor to beat." data-ref-source="microsoft.com/excel" data-ref-url="https://support.microsoft.com/en-us/office/overview-of-pivottables-and-pivotcharts-527c8fa3-02c0-445a-a2db-7794676bce96" data-ref-color="#107C41">Excel pivot tables</span>.</p>
+    </div>
+
+    <h2 class="section-heading"><span class="small">North star</span>Success metric I chose</h2>
+    <div class="success-metric fade-when-visible"><strong>Excel-switch count per Step 3 session</strong> (PostHog). If planners stopped opening Excel, every other problem was downstream. Target: under 2 (from 8.3).</div>
+
+    <h2 class="section-heading"><span class="small">Design</span>Iterations</h2>
+
+    <section class="iteration fade-when-visible">
+      <header class="iteration-header">
+        <span class="iteration-num">01</span>
+        <span class="iteration-title">Top-of-table summary chart</span>
+        <span class="iteration-status killed">Killed</span>
+        <span class="iteration-status tackled">Tackled Problem 1</span>
+      </header>
+      <div class="iter-body">
+        <p><strong>Why.</strong> PM said tables alone weren't intuitive. Hypothesis: category-level context up top would frame row-level decisions.</p>
+        <div class="iter-label">Alternatives considered</div>
+        <ul class="alternatives">
+          <li><em>Inline mini-charts per row</em> — pattern from <span class="ref" data-ref-title="Stripe · Inline metrics" data-ref-caption="Sparklines per row." data-ref-source="stripe.com" data-ref-url="https://stripe.com/dashboard" data-ref-color="#635BFF">Stripe</span> and <span class="ref" data-ref-title="Linear · Project rows" data-ref-caption="Sparkline progress." data-ref-source="linear.app" data-ref-url="https://linear.app/" data-ref-color="#5E6AD2">Linear</span>; deferred.</li>
+          <li><em>Chart-as-modal overlay on demand</em> — pattern from <span class="ref" data-ref-title="Tableau Server · Drill modal" data-ref-caption="Modal chart overlay." data-ref-source="tableau.com" data-ref-url="https://www.tableau.com/" data-ref-color="#1F77B4">Tableau Server</span>; rejected because it hid the table.</li>
+        </ul>
+        <div class="chosen"><strong>Chosen approach.</strong> Single line chart pinned to top of table. Drew on <span class="ref" data-ref-title="Cognira · Chart-above-table" data-ref-caption="Dominant convention in promo tools." data-ref-source="cognira.com" data-ref-url="https://cognira.com/" data-ref-color="#1A365D">Cognira's</span> layout pattern.</div>
+        <p class="result"><strong>Result.</strong> PostHog showed planners glanced at the chart for under 2 seconds. CSM: <em>"It's nice but it doesn't help me decide on row 47."</em></p>
+        <p class="insight">The dominant industry pattern was wrong for our problem. Decisions happen at the row, not the category.</p>
+      </div>
+    </section>
+
+    <section class="iteration fade-when-visible">
+      <header class="iteration-header">
+        <span class="iteration-num">02</span>
+        <span class="iteration-title">Alert chips on high-priority rows</span>
+        <span class="iteration-status won">Won</span>
+        <span class="iteration-status tackled">Tackled Problem 1</span>
+      </header>
+      <div class="iter-body">
+        <p><strong>Why.</strong> 10,000 rows can't be scanned. We needed <em>exception-driven</em> attention. After Iter 1 failed, we ran an internal sketch workshop (DS + design + PM, 90 min) — three alternatives below came out of it.</p>
+        <div class="iter-label">Alternatives considered</div>
+        <ul class="alternatives">
+          <li><em>Sortable columns by variance / revenue</em> — pattern from <span class="ref" data-ref-title="Eversight · Promo dashboard" data-ref-caption="Column-sorting as the primary attention pattern." data-ref-source="eversightai.com" data-ref-url="https://www.eversightai.com/" data-ref-color="#5C6BC0">Eversight</span> and <span class="ref" data-ref-title="Blue Yonder · Promo dashboard" data-ref-caption="Sortable variance columns." data-ref-source="blueyonder.com" data-ref-url="https://blueyonder.com/" data-ref-color="#00457C">Blue Yonder</span>; rejected because <strong>G2 reviews of both</strong> listed <em>"can't tell which column to sort by"</em> as a top complaint.</li>
+          <li><em>Heat-map colouring across whole rows</em> — pattern from <span class="ref" data-ref-title="Tableau · Heat-map dashboards" data-ref-caption="Ambient colour gradients." data-ref-source="tableau.com" data-ref-url="https://www.tableau.com/" data-ref-color="#1F77B4">Tableau</span> and <span class="ref" data-ref-title="ThoughtSpot · Dashboards" data-ref-caption="Heavy heat-map cell colouring." data-ref-source="thoughtspot.com" data-ref-url="https://www.thoughtspot.com/" data-ref-color="#2470FF">ThoughtSpot</span>; rejected — perf at 10K rows, and heat maps are ambient (chips are focal).</li>
+          <li><em>Separate "Needs attention" side panel</em> — pattern from <span class="ref" data-ref-title="Salesforce · My Open Cases" data-ref-caption="Right-rail attention panel." data-ref-source="salesforce.com" data-ref-url="https://www.salesforce.com/" data-ref-color="#00A1E0">Salesforce sidebar</span>; rejected — action and signal need to coexist in one view.</li>
+        </ul>
+        <div class="chosen"><strong>Chosen approach.</strong> Coloured chips inline on rows, with a sticky "Alerts only" filter pill. Adapted from <span class="ref" data-ref-title="MarkSmart · Exception highlights" data-ref-caption="Internal IA precedent." data-ref-source="impactanalytics.ai" data-ref-url="https://www.impactanalytics.ai/solutions/markdown-optimization" data-ref-color="#B83310">MarkSmart's exception-highlight pattern</span>, reinforced by a planner's own suggestion: <em>"color the rows that are weird so I don't miss them."</em></div>
+        <div class="iter-label">How / collaboration</div>
+        <p>Worked with the DS team to define exception rules — forecast variance &gt; 20%, top 5% of SKUs by revenue, items below margin floor, new SKUs with no baseline. <strong>Frontend eng flagged a perf risk:</strong> rendering 10,000 chips would tank scroll. We agreed to virtualize the table.</p>
+        <p class="result"><strong>Result.</strong> Planners opened "Alerts only" in <strong>71% of sessions</strong>. Excel-switch count dropped <strong>8.3 → 4.6</strong>.</p>
+      </div>
+    </section>
+
+    <section class="iteration fade-when-visible">
+      <header class="iteration-header">
+        <span class="iteration-num">03</span>
+        <span class="iteration-title">Time-grain drawer</span>
+        <span class="iteration-status won">Won</span>
+        <span class="iteration-status tackled">Tackled Problems 2 + 4</span>
+      </header>
+      <div class="iter-body">
+        <p><strong>Why.</strong> Problem 2 said planners wanted weekly / daily views; Problem 4 said they did this work in Excel pivots. A single drawer could solve both — <em>if</em> it was as fast as Excel.</p>
+        <div class="iter-label">Alternatives considered</div>
+        <ul class="alternatives">
+          <li><em>Inline expansion of each row</em> — pattern from <span class="ref" data-ref-title="Notion · Row expand" data-ref-caption="Click a database row → expands inline." data-ref-source="notion.so" data-ref-url="https://www.notion.so/" data-ref-color="#0F0F0F">Notion's row expansion</span> and <span class="ref" data-ref-title="GitHub · PR file diff" data-ref-caption="Inline file diff expansion." data-ref-source="github.com" data-ref-url="https://github.com/" data-ref-color="#0D1117">GitHub PR diffs</span>; rejected because only one row is visible at a time.</li>
+          <li><em>Full-screen weekly view (modal)</em> — pattern from <span class="ref" data-ref-title="Tableau · Drill-through" data-ref-caption="Modal drill view." data-ref-source="tableau.com" data-ref-url="https://www.tableau.com/" data-ref-color="#1F77B4">Tableau drill-through</span>; rejected — hides the table.</li>
+          <li><em>Pop-out window</em> — pattern from <span class="ref" data-ref-title="Salesforce Lightning · Detail popout" data-ref-caption="Separate window for detail." data-ref-source="salesforce.com/lightning" data-ref-url="https://www.salesforce.com/lightning/" data-ref-color="#00A1E0">Salesforce Lightning</span>; rejected — second window creates a second context.</li>
+        </ul>
+        <div class="chosen"><strong>Chosen approach.</strong> Side drawer at 60/40 split. Drew on <span class="ref" data-ref-title="Linear · Issue side panel" data-ref-caption="60/40 split that keeps context visible." data-ref-source="linear.app" data-ref-url="https://linear.app/features" data-ref-color="#5E6AD2">Linear's issue side panel</span> and <span class="ref" data-ref-title="Figma · Properties panel" data-ref-caption="Right-rail properties without hiding the canvas." data-ref-source="figma.com" data-ref-url="https://www.figma.com/" data-ref-color="#0ACF83">Figma's properties panel</span>.</div>
+        <div class="iter-label">How / collaboration</div>
+        <p><strong>Eng pushed back</strong> on 60/40 — proposed 70/30. Prototyped both with 6 planners; 60/40 won. <strong>DS partnership:</strong> materialized weekly forecast table refreshed nightly — traded freshness for sub-400ms drawer load.</p>
+        <p class="result"><strong>Result.</strong> Excel-switch count dropped <strong>4.6 → 1.4</strong>. CSM verbatim: <em>"I don't open Excel anymore for Step 3."</em></p>
+      </div>
+    </section>
+
+    <section class="iteration fade-when-visible">
+      <header class="iteration-header">
+        <span class="iteration-num">04</span>
+        <span class="iteration-title">Pivot / aggregation toggle</span>
+        <span class="iteration-status won">Won</span>
+        <span class="iteration-status tackled">Tackled Problem 3</span>
+      </header>
+      <div class="iter-body">
+        <p><strong>Why.</strong> Three personas, three grains. A single screen with grain control was simpler than forking the codebase.</p>
+        <div class="iter-label">Alternatives considered</div>
+        <ul class="alternatives">
+          <li><em>Three separate screens (one per grain)</em> — pattern from <span class="ref" data-ref-title="Oracle ORC · Per-grain screens" data-ref-caption="Separate URLs per grain — legacy ERP convention." data-ref-source="oracle.com/retail" data-ref-url="https://www.oracle.com/in/retail/" data-ref-color="#C74634">Oracle ORC</span>; rejected — tripled the codebase.</li>
+          <li><em>Saved views with pre-filtered aggregations</em> — pattern from <span class="ref" data-ref-title="Salesforce · Reports" data-ref-caption="Saved report library." data-ref-source="salesforce.com" data-ref-url="https://www.salesforce.com/" data-ref-color="#00A1E0">Salesforce reports</span> and <span class="ref" data-ref-title="Looker · Explores" data-ref-caption="Saved explore views." data-ref-source="cloud.google.com/looker" data-ref-url="https://cloud.google.com/looker" data-ref-color="#4285F4">Looker explores</span>; rejected — requires foreknowledge.</li>
+          <li><em>Group-by dropdown (Excel-style pivot)</em> — pattern from <span class="ref" data-ref-title="Excel · Pivot table builder" data-ref-caption="Free-form group-by." data-ref-source="microsoft.com/excel" data-ref-url="https://support.microsoft.com/en-us/office/overview-of-pivottables-and-pivotcharts-527c8fa3-02c0-445a-a2db-7794676bce96" data-ref-color="#107C41">Excel pivot tables</span> and <span class="ref" data-ref-title="Airtable · Group by" data-ref-caption="Free-form grouping." data-ref-source="airtable.com" data-ref-url="https://www.airtable.com/" data-ref-color="#F82B60">Airtable grouping</span>; rejected — too many degrees of freedom.</li>
+        </ul>
+        <div class="chosen"><strong>Chosen approach.</strong> Breadcrumb-style grain selector — Category → Sub-category → Item → Item × Store. Adapted from <span class="ref" data-ref-title="Notion · Nested page navigation" data-ref-caption="Breadcrumb hierarchy." data-ref-source="notion.so" data-ref-url="https://www.notion.so/" data-ref-color="#0F0F0F">Notion's nested page navigation</span> and <span class="ref" data-ref-title="Stripe · Drill-through breadcrumbs" data-ref-caption="Breadcrumb that traces drill path." data-ref-source="stripe.com/dashboard" data-ref-url="https://stripe.com/dashboard" data-ref-color="#635BFF">Stripe's drill-through breadcrumbs</span>.</div>
+        <p class="result"><strong>Result.</strong> Promos finalised per planner per week went <strong>11 → 28</strong>.</p>
+      </div>
+    </section>
+
+    <h2 class="section-heading"><span class="small">Cross-functional</span>Engineering &amp; data science partnership</h2>
+    <div class="collab fade-when-visible">
+      <p><strong>Perf set the design ceiling.</strong> Frontend eng flagged early that per-row visual treatment needed virtualization to keep 60fps scrolling on 10K rows.</p>
+      <p><strong>The DS team owned the model; I owned the surface.</strong> We co-designed an exception-rule engine where DS controlled the math and I controlled the discoverability. The rules changed three times in the first three months — separation let the model evolve without UI rework.</p>
+      <p><strong>I sequenced the launch with engineering.</strong> Iter 2 (alerts) → sprint 1; Iter 3 (drawer) → sprints 2–3; Iter 4 (pivot) → sprints 4–5. Planners got value early instead of waiting for one big launch.</p>
+    </div>
+
+    <h2 class="section-heading"><span class="small">Result</span>Outcome (90 days · n = 312 planners · 6 tenants)</h2>
+    <div class="outcome-stats fade-when-visible">
+      <div class="stat"><div class="stat-label">Median time on Step 3 per promo</div><div class="stat-value">47 min <span class="arrow">→</span> <span class="to">12 min</span></div><div class="stat-delta">−74%</div></div>
+      <div class="stat"><div class="stat-label">Excel-switch count per session</div><div class="stat-value">8.3 <span class="arrow">→</span> <span class="to">1.4</span></div><div class="stat-delta">Below target of 2.0</div></div>
+      <div class="stat"><div class="stat-label">Step 3 completion rate</div><div class="stat-value">41% <span class="arrow">→</span> <span class="to">87%</span></div></div>
+      <div class="stat"><div class="stat-label">Promos finalised / planner / week</div><div class="stat-value">11 <span class="arrow">→</span> <span class="to">28</span></div><div class="stat-delta">2.5× throughput</div></div>
+      <div class="stat"><div class="stat-label">SUS score (Maze, n = 24)</div><div class="stat-value">38 <span class="arrow">→</span> <span class="to">78</span></div></div>
+      <div class="stat"><div class="stat-label">Strategic</div><div class="stat-value" style="font-size: 16px; line-height: 1.4;">Named in two enterprise renewal conversations as a retention factor.</div></div>
+    </div>
+
+    <div class="reflection fade-when-visible">
+      <h3>What I'd do differently</h3>
+      <p>We defined the exception rules with the DS team and one apparel super user. Six weeks post-launch, grocery planners told CSM the rules were wrong — they think about exceptions differently (perishability, promo timing, store density). We patched it with configurable rules in v1.1. Should have been v1, and I knew it during research. I traded correctness for speed and paid for it twice.</p>
+    </div>
+
+    <div class="back-to-all"><a href="#/">All case studies</a></div>
+
+  </div>
+</article>
+
+<section class="next-case">
+  <div class="container">
+    <div class="next-case-eyebrow">Next case study · B</div>
+    <a href="#case-b" class="next-case-link">
+      <div class="next-case-headline">23% → 71%</div>
+      <div class="next-case-description">Acceptance rate on our AI's promo recommendations. Four design moves got us there — none of them was the AI getting smarter.</div>
+      <span class="next-case-arrow">Read Case B</span>
+    </a>
+  </div>
+</section>
+</div><!-- /view case-a -->
+
+<!-- =========================================================
+     VIEW · CASE B
+     ========================================================= -->
+<div class="view" data-view="case-b">
+<article class="case">
+  <div class="container">
+
+    <header class="case-hero">
+      <div class="case-hero-eyebrow">Case Study B · AI Trust &amp; Explainability</div>
+      <div class="case-hero-number">23% → 71%</div>
+      <div class="case-hero-caption">Acceptance rate on our AI's promo recommendations. Four design moves got us there — none of them was the AI getting smarter.</div>
+      <div class="case-hero-meta">
+        <strong>7 min read</strong><span class="dot">·</span><span>Lead designer</span>
+        <span class="dot">·</span><span>6 weeks</span><span class="dot">·</span><span>2024</span>
+      </div>
+      <button class="case-listen-cta" data-listen="case-b" type="button" aria-label="Play 1-minute audio summary">
+        <span class="case-listen-cta-icon">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><polygon points="6 4 20 12 6 20 6 4"/></svg>
+        </span>
+        Play 1-min summary
+      </button>
+    </header>
+
+    <section class="opening fade-when-visible">
+      <blockquote>"It gives me a number. I don't know if that number is good."</blockquote>
+      <p>That was an apparel merchant in interview number three. By interview number ten I'd heard variations of the same sentence from every planner.</p>
+      <p>We had built a smarter discount engine than most of our customers had ever used. PostHog said they ignored it <strong>77% of the time</strong>. "Copy Last Year" — the anti-pattern we'd literally built the AI to kill — was still being used on <strong>54% of new promos</strong>. Two of three lost deals in Q1 cited <em>"AI feels like a black box"</em> in post-mortems.</p>
+      <p>The AI didn't need to get smarter. It needed to be trusted. I had six weeks.</p>
+    </section>
+
+    <div class="role-line fade-when-visible">
+      <strong>Role.</strong> Lead designer (Senior UX UI Designer)
+      &nbsp;·&nbsp; <strong>Team.</strong> 1 data scientist + 1 frontend engineer
+      &nbsp;·&nbsp; <strong>Duration.</strong> 6 weeks
+    </div>
+
+    <h2 class="section-heading"><span class="small">Research</span>What the data said — four problems</h2>
+    <div class="problem fade-when-visible"><div class="problem-label">Problem 01</div><div class="problem-title">Precision</div><div class="problem-body">A single number reads as a guess.<blockquote>"It gives me a number. I don't know if that number is good."</blockquote><span class="data">PostHog · AI acceptance = 23%.</span></div></div>
+    <div class="problem fade-when-visible"><div class="problem-label">Problem 02</div><div class="problem-title">Reasoning</div><div class="problem-body">Even a precise number is rejected without a "why."<blockquote>"Show me the math, or I'm not signing my name to this discount."</blockquote><span class="data">Support tickets tagged "AI logic question" = 47/month.</span></div></div>
+    <div class="problem fade-when-visible"><div class="problem-label">Problem 03</div><div class="problem-title">Comparison</div><div class="problem-body">Planners think comparatively, not absolutely.<blockquote>"What if I gave 5% more?"</blockquote><span class="data">"Copy Last Year" usage = 54% of new promos.</span></div></div>
+    <div class="problem fade-when-visible"><div class="problem-label">Problem 04</div><div class="problem-title">Constraints</div><div class="problem-body">Trust requires knowing the AI won't get you into trouble.<blockquote>"What if I'm 5% over budget? Will the system tell me?"</blockquote><span class="data">CSM trust survey baseline — 31% agreed "I trust the AI recommendation."</span></div></div>
+
+    <h2 class="section-heading"><span class="small">Prior art</span>Landscape scan</h2>
+    <div class="landscape fade-when-visible">
+      <p>AI explainability is moving fast across SaaS — uniformly in the <em>wrong</em> direction for our users.</p>
+      <p><strong>Competitors.</strong> <span class="ref" data-ref-title="Eversight · AI promo optimizer" data-ref-caption="AI-suggests-you-review without inline reasoning." data-ref-source="eversightai.com" data-ref-url="https://www.eversightai.com/" data-ref-color="#5C6BC0">Eversight</span> had the strongest AI-suggests pattern but no inline reasoning. <span class="ref" data-ref-title="Revionics" data-ref-caption="Confidence without 'why'." data-ref-source="revionics.com" data-ref-url="https://www.revionics.com/" data-ref-color="#003366">Revionics</span> displayed confidence scores but no "why." <span class="ref" data-ref-title="Blue Yonder · AI" data-ref-caption="Black-box AI." data-ref-source="blueyonder.com" data-ref-url="https://blueyonder.com/" data-ref-color="#00457C">Blue Yonder's</span> AI was effectively opaque. <span class="ref" data-ref-title="Cognira" data-ref-caption="Reasoning behind a separate click." data-ref-source="cognira.com" data-ref-url="https://cognira.com/" data-ref-color="#1A365D">Cognira</span> was newer and more transparent but still surfaced reasoning behind a separate click.</p>
+      <p><strong>Cross-industry.</strong> SHAP-style feature attribution is standard in ML tooling (<span class="ref" data-ref-title="Hugging Face · Spaces" data-ref-caption="SHAP / feature-attribution explainability." data-ref-source="huggingface.co" data-ref-url="https://huggingface.co/spaces" data-ref-color="#FFD21E">Hugging Face</span>, <span class="ref" data-ref-title="Pinecone" data-ref-caption="Vector-search similarity scores." data-ref-source="pinecone.io" data-ref-url="https://www.pinecone.io/" data-ref-color="#1E3A8A">Pinecone</span>, <span class="ref" data-ref-title="OpenAI · Playground" data-ref-caption="Logit probabilities — unreadable for non-analysts." data-ref-source="platform.openai.com" data-ref-url="https://platform.openai.com/playground" data-ref-color="#10A37F">OpenAI's playground</span>) — technically correct, unreadable for our users. <span class="ref" data-ref-title="Linear · AI commit summaries" data-ref-caption="Plain-English commit explanations." data-ref-source="linear.app" data-ref-url="https://linear.app/changelog" data-ref-color="#5E6AD2">Linear's AI commit summaries</span>, <span class="ref" data-ref-title="Notion AI" data-ref-caption="Inline suggestions with natural-language reasoning." data-ref-source="notion.so/product/ai" data-ref-url="https://www.notion.so/product/ai" data-ref-color="#0F0F0F">Notion AI's inline suggestions</span>, and <span class="ref" data-ref-title="GitHub Copilot" data-ref-caption="Inline code suggestions with plain-English reasoning." data-ref-source="github.com/features/copilot" data-ref-url="https://github.com/features/copilot" data-ref-color="#0D1117">GitHub Copilot</span> all use natural language.</p>
+      <p><strong>Internal precedent.</strong> <span class="ref" data-ref-title="MarkSmart · Explanation pattern" data-ref-caption="Three-sentence plain-English explanation." data-ref-source="impactanalytics.ai" data-ref-url="https://www.impactanalytics.ai/solutions/markdown-optimization" data-ref-color="#B83310">MarkSmart</span> had started a similar pattern. We extended it.</p>
+    </div>
+
+    <h2 class="section-heading"><span class="small">North star</span>Success metric I chose</h2>
+    <div class="success-metric fade-when-visible"><strong>AI recommendation acceptance rate</strong> (PostHog event). Target: over 60%. Secondary floor: "Copy Last Year" under 25%.</div>
+
+    <h2 class="section-heading"><span class="small">Design</span>Iterations</h2>
+
+    <section class="iteration fade-when-visible">
+      <header class="iteration-header"><span class="iteration-num">01</span><span class="iteration-title">Confidence band on the recommendation</span><span class="iteration-status partial">Partial win</span><span class="iteration-status tackled">Tackled Problem 1</span></header>
+      <div class="iter-body">
+        <p><strong>Why.</strong> A precise single number reads as a guess; a range reads as analysis.</p>
+        <div class="iter-label">Alternatives considered</div>
+        <ul class="alternatives">
+          <li><em>Hide the AI's number until the planner enters their own</em> — pattern from <span class="ref" data-ref-title="Zillow · Zestimate" data-ref-caption="Price-prediction hide/show." data-ref-source="zillow.com" data-ref-url="https://www.zillow.com/zestimate/" data-ref-color="#006AFF">Zillow Zestimate</span>; rejected — removing the recommendation defeats the purpose.</li>
+          <li><em>Number + confidence percentage</em> — pattern from <span class="ref" data-ref-title="Weather forecasts" data-ref-caption="Probability framing." data-ref-source="weather.com" data-ref-url="https://weather.com" data-ref-color="#3B82C4">weather forecasts</span>; rejected — <em>"87% confident in what?"</em> tested confusingly.</li>
+        </ul>
+        <div class="chosen"><strong>Chosen approach.</strong> Shaded confidence band. Drew on <span class="ref" data-ref-title="Tableau · Forecast widget" data-ref-caption="Shaded confidence band around forecast lines." data-ref-source="tableau.com" data-ref-url="https://www.tableau.com/" data-ref-color="#1F77B4">Tableau's forecast widgets</span> and <span class="ref" data-ref-title="Stripe · Churn prediction" data-ref-caption="Shaded ranges to imply analytical uncertainty." data-ref-source="stripe.com" data-ref-url="https://stripe.com/dashboard" data-ref-color="#635BFF">Stripe's churn dashboards</span>.</div>
+        <p class="result"><strong>Result.</strong> Acceptance <strong>23% → 31%</strong>. Modest. CSM: <em>"Now I want to know why."</em></p>
+        <p class="insight">Confidence framing is the <em>floor</em> of trust, not the ceiling.</p>
+      </div>
+    </section>
+
+    <section class="iteration fade-when-visible">
+      <header class="iteration-header"><span class="iteration-num">02</span><span class="iteration-title">"Why this discount?" panel</span><span class="iteration-status won">Won</span><span class="iteration-status tackled">Tackled Problem 2</span></header>
+      <div class="iter-body">
+        <p><strong>Why.</strong> PM literally asked for it — <em>"GPT which is best and why it was chosen."</em></p>
+        <div class="iter-label">Alternatives considered</div>
+        <ul class="alternatives">
+          <li><em>Always-visible expanded reasoning</em> — pattern from <span class="ref" data-ref-title="Hugging Face · Transformer demos" data-ref-caption="Reasoning shown by default." data-ref-source="huggingface.co" data-ref-url="https://huggingface.co/spaces" data-ref-color="#FFD21E">Hugging Face's transformer demos</span>; rejected — ate vertical space.</li>
+          <li><em>Chatbot-style "ask why" interaction</em> — pattern from <span class="ref" data-ref-title="Notion AI" data-ref-caption="Open-ended chat for explanation." data-ref-source="notion.so/product/ai" data-ref-url="https://www.notion.so/product/ai" data-ref-color="#0F0F0F">Notion AI</span> and <span class="ref" data-ref-title="ChatGPT · Plugins" data-ref-caption="Conversational explanation." data-ref-source="chat.openai.com" data-ref-url="https://chat.openai.com" data-ref-color="#74AA9C">ChatGPT plugins</span>; rejected — too open-ended.</li>
+          <li><em>SHAP-style feature attribution chart</em> — standard in ML tooling; rejected — technically correct, unreadable.</li>
+        </ul>
+        <div class="chosen"><strong>Chosen approach.</strong> Four reasoning cards — elasticity, similar SKU history, budget remaining, expected lift — each one line of plain English. Drew on <span class="ref" data-ref-title="GitHub Copilot · Inline suggestions" data-ref-caption="Plain-English code reasoning, inline." data-ref-source="github.com/features/copilot" data-ref-url="https://github.com/features/copilot" data-ref-color="#0D1117">GitHub Copilot's inline suggestions</span> and <span class="ref" data-ref-title="Linear · AI commit messages" data-ref-caption="Structured plain-English summary." data-ref-source="linear.app" data-ref-url="https://linear.app/changelog" data-ref-color="#5E6AD2">Linear's AI commit messages</span>.</div>
+        <div class="iter-label">How / collaboration</div>
+        <p>Designed the copy with the DS team — three rounds on the elasticity card alone, from <em>"highly price-elastic"</em> (too vague) to the final <em>"shirts lift ~3.4% per 1% discount up to 35%."</em></p>
+        <p class="result"><strong>Result.</strong> Panel opened on <strong>64% of recommendations</strong>. Acceptance <strong>31% → 58%</strong>. Support tickets <strong>47/mo → 22/mo</strong>.</p>
+        <p class="insight">Plain-English reasoning beats SHAP. Every time.</p>
+      </div>
+    </section>
+
+    <section class="iteration fade-when-visible">
+      <header class="iteration-header"><span class="iteration-num">03</span><span class="iteration-title">Scenario comparison — the Copy-Last-Year killer</span><span class="iteration-status won">Won</span><span class="iteration-status tackled">Tackled Problem 3</span></header>
+      <div class="iter-body">
+        <p><strong>Why.</strong> Planners decide comparatively. "Copy Last Year" was being used because it was <em>the only comparison the product offered</em>.</p>
+        <div class="iter-label">Alternatives considered</div>
+        <ul class="alternatives">
+          <li><em>Single AI suggestion + manual "try another number"</em> — pattern from <span class="ref" data-ref-title="Oracle ORC · Discount entry" data-ref-caption="Suggestion + free-form override." data-ref-source="oracle.com/retail" data-ref-url="https://www.oracle.com/in/retail/" data-ref-color="#C74634">Oracle ORC</span>; rejected — forced planner to do the math.</li>
+          <li><em>Slider that re-forecasts in real-time</em> — pattern from <span class="ref" data-ref-title="Hugging Face Spaces" data-ref-caption="Live ML model demos with sliders." data-ref-source="huggingface.co" data-ref-url="https://huggingface.co/spaces" data-ref-color="#FFD21E">interactive ML demos</span> / <span class="ref" data-ref-title="Streamlit · Sliders" data-ref-caption="Real-time interactive ML demos." data-ref-source="streamlit.io" data-ref-url="https://streamlit.io" data-ref-color="#FF4B4B">Streamlit apps</span>; rejected — forecast model took 800ms+ per scenario.</li>
+          <li><em>5-scenario fan</em> — rejected — cognitive load too high.</li>
+        </ul>
+        <div class="chosen"><strong>Chosen approach.</strong> Triptych — three discount scenarios side-by-side. AI's pick highlighted. Drew on <span class="ref" data-ref-title="Airbnb · Smart pricing" data-ref-caption="Three-column 'low / base / high' suggestion." data-ref-source="airbnb.com" data-ref-url="https://www.airbnb.com" data-ref-color="#FF5A5F">Airbnb's pricing tools</span> and <span class="ref" data-ref-title="Notion · Pricing page" data-ref-caption="Three-column comparison." data-ref-source="notion.so" data-ref-url="https://www.notion.so/pricing" data-ref-color="#0F0F0F">Notion's pricing layouts</span>.</div>
+        <p class="result"><strong>Result.</strong> "Copy Last Year" <strong>54% → 24%</strong>. Acceptance <strong>58% → 68%</strong>. Scenario view used in <strong>81% of new offers</strong>.</p>
+      </div>
+    </section>
+
+    <section class="iteration fade-when-visible">
+      <header class="iteration-header"><span class="iteration-num">04</span><span class="iteration-title">Budget-aware AI (the guardrail)</span><span class="iteration-status won">Won</span><span class="iteration-status tackled">Tackled Problem 4</span></header>
+      <div class="iter-body">
+        <p><strong>Why.</strong> PM's framing — <em>"40% you are selling 4000, but it is within your budget."</em></p>
+        <div class="iter-label">Alternatives considered</div>
+        <ul class="alternatives">
+          <li><em>Hide out-of-budget scenarios</em> — pattern from <span class="ref" data-ref-title="Mint · Hide unaffordable" data-ref-caption="Personal-finance apps hiding unaffordable options." data-ref-source="mint.com" data-ref-url="https://www.intuit.com/" data-ref-color="#00A887">Mint</span>; rejected — planners need to know what's <em>possible</em>.</li>
+          <li><em>Hard-block out-of-budget submissions</em> — pattern from <span class="ref" data-ref-title="SAP Ariba · Approval flows" data-ref-caption="Hard blocks on out-of-budget purchases." data-ref-source="ariba.com" data-ref-url="https://www.ariba.com/" data-ref-color="#0070F2">SAP Ariba</span>; rejected — warning &gt; block.</li>
+          <li><em>Budget tracker as a separate page</em> — pattern from <span class="ref" data-ref-title="NetSuite · Budget reports" data-ref-caption="Separate budget-tracking module." data-ref-source="netsuite.com" data-ref-url="https://www.netsuite.com/" data-ref-color="#FF0000">NetSuite</span>; rejected — trust comes from constraints visible <em>at decision time</em>.</li>
+        </ul>
+        <div class="chosen"><strong>Chosen approach.</strong> AI constrained to budget; persistent budget bar; out-of-budget scenarios flagged with a warning chip. Drew on <span class="ref" data-ref-title="GitHub · Diff warnings" data-ref-caption="Red borders on diffs — warns, doesn't block." data-ref-source="github.com" data-ref-url="https://github.com" data-ref-color="#0D1117">GitHub's diff warnings</span> and <span class="ref" data-ref-title="Linear · Workspace limits" data-ref-caption="Soft warnings near plan limits." data-ref-source="linear.app" data-ref-url="https://linear.app" data-ref-color="#5E6AD2">Linear's workspace-limit warnings</span>.</div>
+        <p class="result"><strong>Result.</strong> Acceptance <strong>68% → 71%</strong>. Trust survey (n=58): <strong>31% → 78%</strong> agreed <em>"I trust the AI recommendation."</em></p>
+      </div>
+    </section>
+
+    <h2 class="section-heading"><span class="small">Cross-functional</span>Engineering &amp; data science partnership</h2>
+    <div class="collab fade-when-visible">
+      <p><strong>Co-ownership of model output language.</strong> Every reasoning card in Iter 2 went through joint design-DS review. This separates <em>"we shipped explainability"</em> from <em>"the explainability earned trust."</em></p>
+      <p><strong>Engineering made trust feel instant.</strong> Pre-fetched scenarios in Iter 3 and the live-updating budget bar in Iter 4 only worked because of frontend perf decisions.</p>
+    </div>
+
+    <h2 class="section-heading"><span class="small">Result</span>Outcome (90 days · n = 412 planners · 7 tenants)</h2>
+    <div class="outcome-stats fade-when-visible">
+      <div class="stat"><div class="stat-label">AI acceptance rate</div><div class="stat-value">23% <span class="arrow">→</span> <span class="to">71%</span></div><div class="stat-delta">+48 pp</div></div>
+      <div class="stat"><div class="stat-label">Override count per session</div><div class="stat-value">12.6 <span class="arrow">→</span> <span class="to">4.1</span></div></div>
+      <div class="stat"><div class="stat-label">"Copy Last Year" usage</div><div class="stat-value">54% <span class="arrow">→</span> <span class="to">19%</span></div><div class="stat-delta">Below floor of 25%</div></div>
+      <div class="stat"><div class="stat-label">Time-to-decision per offer</div><div class="stat-value">22 min <span class="arrow">→</span> <span class="to">7 min</span></div></div>
+      <div class="stat"><div class="stat-label">Support tickets on AI logic</div><div class="stat-value">47/mo <span class="arrow">→</span> <span class="to">15/mo</span></div><div class="stat-delta">−68%</div></div>
+      <div class="stat"><div class="stat-label">Trust survey</div><div class="stat-value">31% <span class="arrow">→</span> <span class="to">78%</span></div><div class="stat-delta">"I trust the AI recommendation"</div></div>
+    </div>
+    <p class="outcome-extra">Patterns now live in IA's AI design system, applied to MarkSmart and PriceSmart.</p>
+
+    <div class="reflection fade-when-visible">
+      <h3>What I'd do differently</h3>
+      <p>I shipped Iter 1 (confidence band) before Iter 2 (the "why" panel). The band gave an 8-point lift. The reasoning gave 27. I over-indexed on "presentation of uncertainty" because it was the easier change. The right call was to ship reasoning first. I knew it from the research and I sequenced wrong anyway.</p>
+    </div>
+
+    <div class="back-to-all"><a href="#/">All case studies</a></div>
+
+  </div>
+</article>
+
+<section class="next-case">
+  <div class="container">
+    <div class="next-case-eyebrow">Next case study · C</div>
+    <a href="#case-c" class="next-case-link">
+      <div class="next-case-headline">4.7 → 1.1 / week</div>
+      <div class="next-case-description">Excel exports per planner. Our biggest customer was paying us to be ignored — until they deleted the spreadsheet.</div>
+      <span class="next-case-arrow">Read Case C</span>
+    </a>
+  </div>
+</section>
+</div><!-- /view case-b -->
+
+<!-- =========================================================
+     VIEW · CASE C
+     ========================================================= -->
+<div class="view" data-view="case-c">
+<article class="case">
+  <div class="container">
+
+    <header class="case-hero">
+      <div class="case-hero-eyebrow">Case Study C · Decision Dashboard</div>
+      <div class="case-hero-number">4.7 → 1.1<span class="unit">&nbsp;/ week</span></div>
+      <div class="case-hero-caption">Excel exports per planner. Our biggest customer was paying us to be ignored — until they deleted the spreadsheet.</div>
+      <div class="case-hero-meta">
+        <strong>7 min read</strong><span class="dot">·</span><span>Lead designer</span>
+        <span class="dot">·</span><span>8 weeks</span><span class="dot">·</span><span>2024</span>
+      </div>
+      <button class="case-listen-cta" data-listen="case-c" type="button" aria-label="Play 1-minute audio summary">
+        <span class="case-listen-cta-icon">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><polygon points="6 4 20 12 6 20 6 4"/></svg>
+        </span>
+        Play 1-min summary
+      </button>
+    </header>
+
+    <section class="opening fade-when-visible">
+      <blockquote>"We're a system of input, not a system of record."</blockquote>
+      <p>That was the PM's framing the week we started this project. It's the kind of thing you don't want said about your enterprise SaaS — because the next sentence is usually about churn.</p>
+      <p>He was being polite. The truth was uglier: our largest customer's super users had built their own parallel Excel and were running the <strong>entire season on it.</strong> They were paying Impact Analytics roughly <strong>$400K a year</strong> to be a glorified data-export button.</p>
+      <p>If the dashboard couldn't replace that Excel, the renewal conversation in eight weeks was going to be about price, not value.</p>
+    </section>
+
+    <div class="role-line fade-when-visible">
+      <strong>Role.</strong> Lead designer (Senior UX UI Designer)
+      &nbsp;·&nbsp; <strong>Team.</strong> 2 frontend engineers + 1 data engineer
+      &nbsp;·&nbsp; <strong>Duration.</strong> 8 weeks
+    </div>
+
+    <h2 class="section-heading"><span class="small">Research</span>What the data said — four problems</h2>
+    <div class="problem fade-when-visible"><div class="problem-label">Problem 01</div><div class="problem-title">Wrong question framing</div><div class="problem-body">Dashboard answered <em>"what's the data?"</em>; planners asked <em>"what's broken?"</em><blockquote>"I export because I can't see what's broken from your dashboard."</blockquote><span class="data">PostHog · time-to-find-variance = 19 minutes.</span></div></div>
+    <div class="problem fade-when-visible"><div class="problem-label">Problem 02</div><div class="problem-title">Misdiagnosed cause</div><div class="problem-body">Stakeholders kept saying "no charts." It wasn't.<blockquote>"Why is everything a table? I just want one chart." — same super user, two interviews later: "You added charts. I still export to Excel."</blockquote></div></div>
+    <div class="problem fade-when-visible"><div class="problem-label">Problem 03</div><div class="problem-title">One dashboard for three personas</div><div class="problem-body">Super users, marketing leads, and merchants saw the wrong information first.<blockquote>"I open the dashboard. The first thing I see is revenue. I don't care about revenue. I care about which event is breaking."</blockquote><span class="data">PostHog · filter-setup events per session = 4.8.</span></div></div>
+    <div class="problem fade-when-visible"><div class="problem-label">Problem 04</div><div class="problem-title">Excel-to-rows drill speed</div><div class="problem-body">Excel let planners go from "weird number" to "which rows caused it" in one click. We made them do five.<blockquote>"In Excel I see a number, I click, I'm in the rows. In your tool I have to remember the filters."</blockquote></div></div>
+
+    <h2 class="section-heading"><span class="small">Prior art</span>Landscape scan</h2>
+    <div class="landscape fade-when-visible">
+      <p>The dashboard space splits between two camps — neither fit our user.</p>
+      <p><strong>Analyst tools.</strong> <span class="ref" data-ref-title="Tableau · Dashboard" data-ref-caption="Powerful exploration. Analyst persona." data-ref-source="tableau.com" data-ref-url="https://www.tableau.com/" data-ref-color="#1F77B4">Tableau</span>, <span class="ref" data-ref-title="Looker · Explores" data-ref-caption="SQL-adjacent literacy required." data-ref-source="cloud.google.com/looker" data-ref-url="https://cloud.google.com/looker" data-ref-color="#4285F4">Looker</span>, <span class="ref" data-ref-title="Sigma" data-ref-caption="Spreadsheet-feel analyst tool." data-ref-source="sigmacomputing.com" data-ref-url="https://www.sigmacomputing.com/" data-ref-color="#00A0F0">Sigma</span>, <span class="ref" data-ref-title="ThoughtSpot" data-ref-caption="Natural-language analytics." data-ref-source="thoughtspot.com" data-ref-url="https://www.thoughtspot.com/" data-ref-color="#2470FF">ThoughtSpot</span>, <span class="ref" data-ref-title="Hex" data-ref-caption="Modern analyst tool." data-ref-source="hex.tech" data-ref-url="https://hex.tech/" data-ref-color="#1E1E1E">Hex</span>: powerful exploration, demand SQL-adjacent literacy.</p>
+      <p><strong>Planner tools.</strong> <span class="ref" data-ref-title="Cognira · Dashboard" data-ref-caption="Planner-focused, lots of tables." data-ref-source="cognira.com" data-ref-url="https://cognira.com/" data-ref-color="#1A365D">Cognira</span>, <span class="ref" data-ref-title="Anaplan" data-ref-caption="Cross-functional planning." data-ref-source="anaplan.com" data-ref-url="https://www.anaplan.com/" data-ref-color="#001F4E">Anaplan</span>, <span class="ref" data-ref-title="Symphony RetailAI" data-ref-caption="Densest planning grid." data-ref-source="symphonyretailai.com" data-ref-url="https://www.symphonyretailai.com/" data-ref-color="#1E3A8A">Symphony RetailAI</span>, <span class="ref" data-ref-title="Aptos · Retail dashboards" data-ref-caption="Retail-specific planner tool." data-ref-source="aptos.com" data-ref-url="https://www.aptos.com/" data-ref-color="#00A4E4">Aptos</span>: assume fixed workflow.</p>
+      <p><strong>Internal precedent.</strong> <span class="ref" data-ref-title="MarkSmart · Variance reporting" data-ref-caption="Variance-first reporting." data-ref-source="impactanalytics.ai" data-ref-url="https://www.impactanalytics.ai/solutions/markdown-optimization" data-ref-color="#B83310">MarkSmart's variance-first reporting</span>; <span class="ref" data-ref-title="PriceSmart · Exception dashboard" data-ref-caption="Exception-driven dashboard." data-ref-source="impactanalytics.ai" data-ref-url="https://www.impactanalytics.ai/solutions/pricing" data-ref-color="#B83310">PriceSmart's exception-driven dashboards</span>.</p>
+      <p><strong>Cross-industry.</strong> <span class="ref" data-ref-title="Linear · Triage" data-ref-caption="Question-led inbox pattern." data-ref-source="linear.app" data-ref-url="https://linear.app/features" data-ref-color="#5E6AD2">Linear's Triage view</span>, <span class="ref" data-ref-title="Stripe · Dashboard" data-ref-caption="Drill-from-anywhere." data-ref-source="stripe.com/dashboard" data-ref-url="https://stripe.com/dashboard" data-ref-color="#635BFF">Stripe's dashboard</span>, <span class="ref" data-ref-title="Datadog" data-ref-caption="Anomaly-first surfacing." data-ref-source="datadoghq.com" data-ref-url="https://www.datadoghq.com/" data-ref-color="#632CA6">Datadog</span> and <span class="ref" data-ref-title="Honeycomb" data-ref-caption="Observability with anomaly-first." data-ref-source="honeycomb.io" data-ref-url="https://www.honeycomb.io/" data-ref-color="#F5A623">Honeycomb</span>, and the dominant real competitor — <span class="ref" data-ref-title="Excel · Pivot tables" data-ref-caption="The user's actual mental model." data-ref-source="microsoft.com/excel" data-ref-url="https://support.microsoft.com/en-us/office/overview-of-pivottables-and-pivotcharts-527c8fa3-02c0-445a-a2db-7794676bce96" data-ref-color="#107C41">Excel pivot tables</span>.</p>
+    </div>
+
+    <h2 class="section-heading"><span class="small">North star</span>Success metric I chose</h2>
+    <div class="success-metric fade-when-visible"><strong>Excel-export count per planner per week</strong> (PostHog). Target: under 1.5 (from 4.7).</div>
+
+    <h2 class="section-heading"><span class="small">Design</span>Iterations</h2>
+
+    <section class="iteration fade-when-visible">
+      <header class="iteration-header"><span class="iteration-num">01</span><span class="iteration-title">Table → chart toggle</span><span class="iteration-status killed">Killed</span><span class="iteration-status tackled">Tackled Problem 2</span></header>
+      <div class="iter-body">
+        <p><strong>Why.</strong> Stakeholders and PM said charts were missing. Easiest possible change.</p>
+        <div class="iter-label">Alternatives considered</div>
+        <ul class="alternatives">
+          <li><em>Mandatory chart-only view</em> — pattern from <span class="ref" data-ref-title="Tableau · Dashboards" data-ref-caption="Chart-first by default." data-ref-source="tableau.com" data-ref-url="https://www.tableau.com/" data-ref-color="#1F77B4">Tableau dashboards</span>; rejected as too aggressive.</li>
+          <li><em>Charts pinned above tables</em> — pattern from <span class="ref" data-ref-title="Cognira · Dashboard" data-ref-caption="Chart-above-table convention." data-ref-source="cognira.com" data-ref-url="https://cognira.com/" data-ref-color="#1A365D">Cognira</span> and <span class="ref" data-ref-title="Eversight · Dashboard" data-ref-caption="Chart-above-table convention." data-ref-source="eversightai.com" data-ref-url="https://www.eversightai.com/" data-ref-color="#5C6BC0">Eversight</span>; rejected for the same reason as Case A's Iter 1.</li>
+        </ul>
+        <div class="chosen"><strong>Chosen approach.</strong> Per-component table / chart toggle. Drew on <span class="ref" data-ref-title="Looker · View switcher" data-ref-caption="Toggle between table and visualization." data-ref-source="cloud.google.com/looker" data-ref-url="https://cloud.google.com/looker" data-ref-color="#4285F4">Looker's view-switcher</span>.</div>
+        <p class="result"><strong>Result.</strong> Toggle clicked on 18% of sessions, then abandoned. CSM: <em>"Now it's a chart. I still don't know what to look at."</em></p>
+        <p class="insight">Adding chart-shaped data to a dashboard built around the wrong question doesn't help. The format wasn't the bottleneck; the question framing was.</p>
+      </div>
+    </section>
+
+    <section class="iteration fade-when-visible">
+      <header class="iteration-header"><span class="iteration-num">02</span><span class="iteration-title">Variance-first dashboard</span><span class="iteration-status won">Won</span><span class="iteration-status tackled">Tackled Problem 1</span></header>
+      <div class="iter-body">
+        <p><strong>Why.</strong> Planners' actual question is <em>"where am I off forecast?"</em> — not <em>"what's my revenue?"</em></p>
+        <div class="iter-label">Alternatives considered</div>
+        <ul class="alternatives">
+          <li><em>Configurable home dashboard</em> — pattern from <span class="ref" data-ref-title="Tableau · Configurable home" data-ref-caption="Drag widgets onto a blank canvas." data-ref-source="tableau.com" data-ref-url="https://www.tableau.com/" data-ref-color="#1F77B4">Tableau</span> and <span class="ref" data-ref-title="Looker · Custom dashboards" data-ref-caption="Build-your-own dashboard." data-ref-source="cloud.google.com/looker" data-ref-url="https://cloud.google.com/looker" data-ref-color="#4285F4">Looker</span>; rejected — most users never customize.</li>
+          <li><em>AI-generated daily summary</em> — pattern from <span class="ref" data-ref-title="Slack · AI summaries" data-ref-caption="AI-generated catch-up summaries." data-ref-source="slack.com/features/ai" data-ref-url="https://slack.com/features/ai" data-ref-color="#4A154B">Slack AI</span> and <span class="ref" data-ref-title="Notion AI · Digest" data-ref-caption="AI-generated daily digests." data-ref-source="notion.so/product/ai" data-ref-url="https://www.notion.so/product/ai" data-ref-color="#0F0F0F">Notion AI digests</span>; deferred.</li>
+          <li><em>Anomaly detection alerts</em> — pattern from <span class="ref" data-ref-title="Datadog · Anomaly detection" data-ref-caption="ML-based anomaly alerts." data-ref-source="datadoghq.com" data-ref-url="https://www.datadoghq.com/" data-ref-color="#632CA6">Datadog</span>, <span class="ref" data-ref-title="Honeycomb" data-ref-caption="Anomaly-first." data-ref-source="honeycomb.io" data-ref-url="https://www.honeycomb.io/" data-ref-color="#F5A623">Honeycomb</span>, <span class="ref" data-ref-title="PagerDuty" data-ref-caption="Alert-driven incident response." data-ref-source="pagerduty.com" data-ref-url="https://www.pagerduty.com/" data-ref-color="#06AC38">PagerDuty</span>; rejected for v1 — insufficient training data.</li>
+        </ul>
+        <div class="chosen"><strong>Chosen approach.</strong> "Top variance today" default view. Drew on <span class="ref" data-ref-title="Linear · Triage" data-ref-caption="Question-led inbox." data-ref-source="linear.app" data-ref-url="https://linear.app/features" data-ref-color="#5E6AD2">Linear's Triage view</span> and <span class="ref" data-ref-title="MarkSmart · Variance reporting" data-ref-caption="Internal IA pattern." data-ref-source="impactanalytics.ai" data-ref-url="https://www.impactanalytics.ai/solutions/markdown-optimization" data-ref-color="#B83310">MarkSmart's variance reporting</span>.</div>
+        <p class="result"><strong>Result.</strong> Time-to-find-variance <strong>19 min → 3 min</strong> by week 4. Drill-downs <strong>2.1 → 4.4</strong>.</p>
+        <p class="insight">Lead with the user's question, not the data.</p>
+      </div>
+    </section>
+
+    <section class="iteration fade-when-visible">
+      <header class="iteration-header"><span class="iteration-num">03</span><span class="iteration-title">Persona-based defaults</span><span class="iteration-status won">Won</span><span class="iteration-status tackled">Tackled Problem 3</span></header>
+      <div class="iter-body">
+        <p><strong>Why.</strong> PM defined three personas. A single default can't serve three.</p>
+        <div class="iter-label">Alternatives considered</div>
+        <ul class="alternatives">
+          <li><em>Manual "set my default view"</em> — pattern from <span class="ref" data-ref-title="Salesforce · Dashboard preferences" data-ref-caption="User-configurable defaults." data-ref-source="salesforce.com" data-ref-url="https://www.salesforce.com/" data-ref-color="#00A1E0">Salesforce dashboards</span>; rejected — most never configure.</li>
+          <li><em>AI-personalised dashboard</em> — pattern from <span class="ref" data-ref-title="Slack · For You" data-ref-caption="AI-ordered home feed." data-ref-source="slack.com" data-ref-url="https://slack.com/" data-ref-color="#4A154B">Slack's "For You"</span> and <span class="ref" data-ref-title="LinkedIn · Home" data-ref-caption="AI-ranked home feed." data-ref-source="linkedin.com" data-ref-url="https://www.linkedin.com/" data-ref-color="#0A66C2">LinkedIn's home</span>; rejected — would conflict with the AI trust work in Case B.</li>
+          <li><em>Smart-section reordering by role</em> — too clever for v1.</li>
+        </ul>
+        <div class="chosen"><strong>Chosen approach.</strong> Three role-tagged default views. Drew on <span class="ref" data-ref-title="Notion · Workspaces" data-ref-caption="Different default homepages per workspace." data-ref-source="notion.so" data-ref-url="https://www.notion.so/templates" data-ref-color="#0F0F0F">Notion's workspace-per-role pattern</span> and <span class="ref" data-ref-title="Asana · My Tasks" data-ref-caption="Persona-aware home." data-ref-source="asana.com" data-ref-url="https://asana.com" data-ref-color="#F06A6A">Asana's "My Tasks"</span>.</div>
+        <p class="result"><strong>Result.</strong> Filter-setup events dropped <strong>64%</strong>. Dashboard DAU <strong>38% → 76%</strong>.</p>
+        <p class="insight">Defaults matter more than configurability. Most users never customise.</p>
+      </div>
+    </section>
+
+    <section class="iteration fade-when-visible">
+      <header class="iteration-header"><span class="iteration-num">04</span><span class="iteration-title">Drill-from-chart to source rows</span><span class="iteration-status won">Won</span><span class="iteration-status tackled">Tackled Problem 4</span></header>
+      <div class="iter-body">
+        <p><strong>Why.</strong> Excel got used because of one specific thing — when planners spotted a weird number, they wanted to see the rows behind it <em>immediately</em>.</p>
+        <div class="iter-label">Alternatives considered</div>
+        <ul class="alternatives">
+          <li><em>"View details" button per chart</em> — pattern from <span class="ref" data-ref-title="Looker · View details" data-ref-caption="Explicit drill button." data-ref-source="cloud.google.com/looker" data-ref-url="https://cloud.google.com/looker" data-ref-color="#4285F4">Looker</span> and <span class="ref" data-ref-title="Sigma" data-ref-caption="Drill-down via button." data-ref-source="sigmacomputing.com" data-ref-url="https://www.sigmacomputing.com/" data-ref-color="#00A0F0">Sigma</span>; rejected — still a separate click.</li>
+          <li><em>Hover-preview of underlying rows</em> — pattern from <span class="ref" data-ref-title="Notion · Hover cards" data-ref-caption="Preview content on hover." data-ref-source="notion.so" data-ref-url="https://www.notion.so/" data-ref-color="#0F0F0F">Notion's hover-cards</span> and <span class="ref" data-ref-title="Linear · Issue previews" data-ref-caption="Hover-preview detail." data-ref-source="linear.app" data-ref-url="https://linear.app" data-ref-color="#5E6AD2">Linear's issue previews</span>; rejected — too noisy.</li>
+          <li><em>Linked filter pills</em> — pattern from <span class="ref" data-ref-title="Tableau · Actions" data-ref-caption="Filter actions across worksheets." data-ref-source="tableau.com" data-ref-url="https://www.tableau.com/" data-ref-color="#1F77B4">Tableau actions</span>; kept partially.</li>
+        </ul>
+        <div class="chosen"><strong>Chosen approach.</strong> Every chart point clickable. Drew on <span class="ref" data-ref-title="Stripe · Drill from anywhere" data-ref-caption="Any chart point clicks through." data-ref-source="stripe.com/dashboard" data-ref-url="https://stripe.com/dashboard" data-ref-color="#635BFF">Stripe's drill-from-anywhere</span> and <span class="ref" data-ref-title="Excel · Pivot drill-through" data-ref-caption="Double-click a pivot cell → underlying rows." data-ref-source="microsoft.com/excel" data-ref-url="https://support.microsoft.com/en-us/office/overview-of-pivottables-and-pivotcharts-527c8fa3-02c0-445a-a2db-7794676bce96" data-ref-color="#107C41">Excel's native drill-through</span>.</div>
+        <p class="result"><strong>Result.</strong> Excel-export count <strong>4.7 → 1.1 / planner / week</strong>. <strong>9 of 14 power users</strong> at the lead account stopped maintaining a side Excel.</p>
+      </div>
+    </section>
+
+    <h2 class="section-heading"><span class="small">Cross-functional</span>Engineering &amp; data science partnership</h2>
+    <div class="collab fade-when-visible">
+      <p><strong>The data engineer's materialized variance table was the unlock.</strong> Iter 2 couldn't have shipped without it.</p>
+      <p><strong>Sub-600ms drill was the trust unlock.</strong> The Excel-killing argument fell apart if our drill felt slow.</p>
+      <p><strong>I deliberately deferred two AI features</strong> because the AI trust work in Case B was still landing in parallel. Strategic call I made with the PM — design judgment across products.</p>
+    </div>
+
+    <h2 class="section-heading"><span class="small">Result</span>Outcome (120 days post-launch)</h2>
+    <div class="outcome-stats fade-when-visible">
+      <div class="stat"><div class="stat-label">Excel-export count / planner / week</div><div class="stat-value">4.7 <span class="arrow">→</span> <span class="to">1.1</span></div><div class="stat-delta">−77%</div></div>
+      <div class="stat"><div class="stat-label">Time-to-find-variance</div><div class="stat-value">19 min <span class="arrow">→</span> <span class="to">3 min</span></div></div>
+      <div class="stat"><div class="stat-label">Dashboard DAU</div><div class="stat-value">38% <span class="arrow">→</span> <span class="to">76%</span></div></div>
+      <div class="stat"><div class="stat-label">Drill-downs per session</div><div class="stat-value">2.1 <span class="arrow">→</span> <span class="to">5.8</span></div><div class="stat-delta">More exploration</div></div>
+      <div class="stat"><div class="stat-label">Meeting prep (CSM, n=42)</div><div class="stat-value">2.5 hrs <span class="arrow">→</span> <span class="to">45 min</span></div></div>
+      <div class="stat"><div class="stat-label">Strategic</div><div class="stat-value" style="font-size: 16px; line-height: 1.45;">Variance-first &amp; drill-from-chart patterns promoted to IA's shared design system.</div></div>
+    </div>
+
+    <div class="reflection fade-when-visible">
+      <h3>What I'd do differently</h3>
+      <p>I shipped variance-first as one-size-fits-all and added persona-based defaults later. They were the same project; I treated them as two. We lost six weeks of adoption to that sequencing. Next time: "default view" and "default for whom" ship together.</p>
+    </div>
+
+    <div class="back-to-all"><a href="#/">All case studies</a></div>
+
+  </div>
+</article>
+
+<section class="next-case">
+  <div class="container">
+    <div class="next-case-eyebrow">Start over · A</div>
+    <a href="#case-a" class="next-case-link">
+      <div class="next-case-headline">47 min → 12 min</div>
+      <div class="next-case-description">The screen that kept planners running a parallel Excel — and the four iterations it took to fix it.</div>
+      <span class="next-case-arrow">Read Case A</span>
+    </a>
+  </div>
+</section>
+</div><!-- /view case-c -->
+
+<!-- =========================================================
+     FOOTER
+     ========================================================= -->
+<footer class="footer">
+  <div class="container">
+    <h2>Want to see more?<br><em>Let's talk.</em></h2>
+    <p style="max-width: 540px; line-height: 1.6;">Happy to walk through any case study on a call, including the PriceSmart work, design system contributions, and mentorship of two junior designers — not covered on this site.</p>
+    <div class="footer-links">
+      <a href="mailto:vrajak115@gmail.com">vrajak115@gmail.com</a>
+      <a href="https://www.linkedin.com/in/vikramrajak/" target="_blank" rel="noopener">LinkedIn</a>
+      <a href="https://www.behance.net/vrajak1150be9" target="_blank" rel="noopener">Behance</a>
+      <a href="#" data-resume>Resume</a>
+    </div>
+    <div class="footer-meta">Designed and built by Vikram Rajak · 2026</div>
+  </div>
+</footer>
+
+<!-- Floating action buttons (back to landing, scroll top, scroll bottom) -->
+<div class="fab-cluster" id="fab-cluster" aria-label="Page navigation">
+  <button class="fab" id="fab-back" data-tooltip="Back to all case studies" type="button" aria-label="Back to all case studies">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <line x1="19" y1="12" x2="5" y2="12"/>
+      <polyline points="12 19 5 12 12 5"/>
+    </svg>
+  </button>
+  <span class="fab-divider" aria-hidden="true"></span>
+  <button class="fab" id="fab-top" data-tooltip="Scroll to top" type="button" aria-label="Scroll to top">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <polyline points="18 15 12 9 6 15"/>
+    </svg>
+  </button>
+  <button class="fab" id="fab-bottom" data-tooltip="Scroll to bottom" type="button" aria-label="Scroll to bottom">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <polyline points="6 9 12 15 18 9"/>
+    </svg>
+  </button>
+</div>
+
+<!-- Reading position indicator (vertical line in left margin) -->
+<div class="narrate-indicator" id="narrate-indicator" aria-hidden="true">
+  <div class="narrate-indicator-track" id="narrate-indicator-track"></div>
+  <div class="narrate-indicator-dot" id="narrate-indicator-dot"></div>
+</div>
+
+<!-- Floating audio player -->
+<div class="audio-player" id="audio-player" role="region" aria-label="Audio summary player">
+  <button class="ap-play" id="ap-play" type="button" aria-label="Play / pause">
+    <svg id="ap-play-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+      <polygon points="6 4 20 12 6 20 6 4"/>
+    </svg>
+  </button>
+  <div class="ap-meta">
+    <div class="ap-title" id="ap-title">Now reading</div>
+    <div class="ap-segment" id="ap-segment">—</div>
+    <div class="ap-track" id="ap-track" role="progressbar" aria-label="Audio progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+      <div class="ap-fill" id="ap-fill"></div>
+    </div>
+  </div>
+  <div class="ap-controls">
+    <button class="ap-speed" id="ap-speed" type="button" aria-label="Playback speed">1×</button>
+    <button class="ap-close" id="ap-close" type="button" aria-label="Close audio player">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true">
+        <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+      </svg>
+    </button>
+  </div>
+</div>
+
+<!-- Audio elements -->
+<audio id="audio-case-a" src="audio/case-a-1min.mp3" preload="metadata"></audio>
+<audio id="audio-case-b" src="audio/case-b-1min.mp3" preload="metadata"></audio>
+<audio id="audio-case-c" src="audio/case-c-1min.mp3" preload="metadata"></audio>
+
+<!-- Hover preview -->
+<div class="hover-preview" id="hover-preview" role="tooltip" aria-hidden="true">
+  <div class="hover-preview-image" id="hp-image"><span id="hp-image-text"></span></div>
+  <div class="hover-preview-content">
+    <div class="hover-preview-title" id="hp-title"></div>
+    <div class="hover-preview-caption" id="hp-caption"></div>
+    <a class="hover-preview-source" id="hp-source" href="#" target="_blank" rel="noopener">Open ↗</a>
+  </div>
+</div>
+
+<script>
+(function () {
+  /* ---------- ROUTER ---------- */
+  const VIEWS = ['landing', 'case-a', 'case-b', 'case-c'];
+  const TITLES = {
+    'landing': 'Vikram Rajak — Senior UX UI Designer',
+    'case-a': 'Step 3 Discount Screen · Vikram Rajak',
+    'case-b': 'AI Trust & Explainability · Vikram Rajak',
+    'case-c': 'Decision Dashboard · Vikram Rajak'
+  };
+  function parseHash() {
+    let h = (location.hash || '').replace(/^#\/?/, '').trim();
+    if (!h || h === '/') return 'landing';
+    if (VIEWS.includes(h)) return h;
+    return 'landing';
+  }
+  function showView(name) {
+    document.querySelectorAll('[data-view]').forEach(v => v.classList.toggle('active', v.dataset.view === name));
+    document.body.className = name === 'landing' ? 'landing' : name;
+    document.title = TITLES[name] || TITLES.landing;
+    document.querySelectorAll('.case-switcher a').forEach(a => {
+      a.classList.toggle('current', a.getAttribute('href') === '#' + name);
+    });
+    window.scrollTo(0, 0);
+    refreshIntersectionObserver();
+  }
+  window.addEventListener('hashchange', () => showView(parseHash()));
+  window.addEventListener('DOMContentLoaded', () => showView(parseHash()));
+
+  // Mobile case-switcher arrows — cycle through case studies
+  const CASE_ORDER = ['case-a', 'case-b', 'case-c'];
+  document.querySelectorAll('[data-case-nav]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const dir = btn.dataset.caseNav;
+      const cur = parseHash();
+      let idx = CASE_ORDER.indexOf(cur);
+      // If we're on landing (or somehow off-list), start at A for "next", C for "prev"
+      if (idx === -1) idx = (dir === 'next') ? -1 : CASE_ORDER.length;
+      const nextIdx = dir === 'next'
+        ? (idx + 1) % CASE_ORDER.length
+        : (idx - 1 + CASE_ORDER.length) % CASE_ORDER.length;
+      location.hash = '#' + CASE_ORDER[nextIdx];
+    });
+  });
+
+  /* ---------- INTERSECTION OBSERVER (scroll fade-in) ---------- */
+  let io;
+  function refreshIntersectionObserver() {
+    if (io) io.disconnect();
+    io = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('in-view');
+          io.unobserve(entry.target);
+        }
+      });
+    }, { rootMargin: '0px 0px -8% 0px', threshold: 0.05 });
+    document.querySelectorAll('.view.active .fade-when-visible').forEach(el => {
+      el.classList.remove('in-view');
+      io.observe(el);
+    });
+  }
+
+  /* ---------- RESUME LINK ---------- */
+  document.querySelectorAll('[data-resume]').forEach(el => {
+    el.addEventListener('click', e => {
+      e.preventDefault();
+      // Try opening /Vikram-Rajak-Resume.pdf, fall back to alert
+      const url = 'Vikram-Rajak-Resume.pdf';
+      const w = window.open(url, '_blank', 'noopener,noreferrer');
+      if (!w) alert('Add your resume PDF as "Vikram-Rajak-Resume.pdf" in this folder to enable this link.');
+    });
+  });
+
+  /* ---------- HOVER PREVIEW ---------- */
+  const preview = document.getElementById('hover-preview');
+  const hpImage = document.getElementById('hp-image');
+  const hpTitle = document.getElementById('hp-title');
+  const hpCaption = document.getElementById('hp-caption');
+  const hpSource = document.getElementById('hp-source');
+  let hideTimeout = null;
+  const imageCache = new Map();
+
+  const slugify = s => s.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+  const buildSlug = title => slugify(title.replace(/·/g, ' '));
+
+  function setTextFallback(productName, color) {
+    hpImage.classList.remove('has-image');
+    hpImage.innerHTML = '';
+    hpImage.style.background = color;
+    const span = document.createElement('span');
+    span.textContent = productName;
+    hpImage.appendChild(span);
+  }
+  function setImage(src) {
+    hpImage.classList.add('has-image');
+    hpImage.innerHTML = '';
+    hpImage.style.background = '#FFFFFF';
+    const img = document.createElement('img');
+    img.src = src; img.alt = ''; img.loading = 'lazy';
+    hpImage.appendChild(img);
+  }
+  function tryLoadFromRefs(slug) {
+    return new Promise((resolve, reject) => {
+      const exts = ['jpg', 'png', 'webp'];
+      function tryNext(i) {
+        if (i >= exts.length) return reject();
+        const url = `refs/${slug}.${exts[i]}`;
+        const img = new Image();
+        img.onload = () => resolve(url);
+        img.onerror = () => tryNext(i + 1);
+        img.src = url;
+      }
+      tryNext(0);
+    });
+  }
+  function preparePreview(ref) {
+    const title = ref.dataset.refTitle || '';
+    const color = ref.dataset.refColor || '#1A1A1A';
+    const productName = title.split('·')[0].trim() || title;
+    const slug = buildSlug(title);
+    if (imageCache.has(slug)) {
+      const cached = imageCache.get(slug);
+      if (cached) setImage(cached); else setTextFallback(productName, color);
+      return;
+    }
+    setTextFallback(productName, color);
+    tryLoadFromRefs(slug).then(src => {
+      imageCache.set(slug, src);
+      if (preview.dataset.currentSlug === slug && preview.classList.contains('visible')) setImage(src);
+    }).catch(() => imageCache.set(slug, null));
+  }
+  function showPreview(ref) {
+    clearTimeout(hideTimeout);
+    const title = ref.dataset.refTitle || '';
+    const caption = ref.dataset.refCaption || '';
+    const source = ref.dataset.refSource || '';
+    const url = ref.dataset.refUrl || '#';
+    const slug = buildSlug(title);
+    hpTitle.textContent = title;
+    hpCaption.textContent = caption;
+    hpSource.textContent = source && source !== '#' ? `Open on ${source} ↗` : 'Open reference ↗';
+    hpSource.href = url;
+    preview.dataset.currentSlug = slug;
+    preparePreview(ref);
+    requestAnimationFrame(() => {
+      const rect = ref.getBoundingClientRect();
+      const pWidth = preview.offsetWidth || 320;
+      const pHeight = preview.offsetHeight || 280;
+      const margin = 16;
+      let left = rect.left + rect.width / 2 - pWidth / 2;
+      let top = rect.top - pHeight - 12;
+      if (left < margin) left = margin;
+      if (left + pWidth > window.innerWidth - margin) left = window.innerWidth - pWidth - margin;
+      if (top < margin) top = rect.bottom + 12;
+      preview.style.left = left + 'px';
+      preview.style.top = top + 'px';
+      preview.classList.add('visible');
+      preview.setAttribute('aria-hidden', 'false');
+    });
+  }
+  function hidePreview() {
+    hideTimeout = setTimeout(() => {
+      preview.classList.remove('visible');
+      preview.setAttribute('aria-hidden', 'true');
+    }, 80);
+  }
+
+  document.querySelectorAll('.ref').forEach(ref => {
+    if (!ref.getAttribute('role')) ref.setAttribute('role', 'link');
+    if (!ref.hasAttribute('tabindex')) ref.setAttribute('tabindex', '0');
+    ref.addEventListener('mouseenter', () => showPreview(ref));
+    ref.addEventListener('mouseleave', hidePreview);
+    ref.addEventListener('focus', () => showPreview(ref));
+    ref.addEventListener('blur', hidePreview);
+    ref.addEventListener('click', e => {
+      const url = ref.dataset.refUrl;
+      if (url && url !== '#') { e.preventDefault(); window.open(url, '_blank', 'noopener,noreferrer'); }
+    });
+    ref.addEventListener('keydown', e => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        const url = ref.dataset.refUrl;
+        if (url && url !== '#') window.open(url, '_blank', 'noopener,noreferrer');
+      }
+    });
+  });
+
+  /* ---------- Card cover images ---------- */
+  document.querySelectorAll('.case-card-image[data-card-slug]').forEach(el => {
+    tryLoadFromRefs(el.dataset.cardSlug).then(src => {
+      const img = document.createElement('img');
+      img.src = src; img.alt = ''; img.loading = 'lazy';
+      el.appendChild(img);
+      const ph = el.querySelector('.case-card-image-placeholder');
+      if (ph) ph.style.display = 'none';
+    }).catch(() => {});
+  });
+
+  /* ---------- Print expected screenshot filenames ---------- */
+  window.addEventListener('DOMContentLoaded', () => {
+    const seen = new Set();
+    document.querySelectorAll('.ref').forEach(ref => {
+      const t = ref.dataset.refTitle;
+      if (t) { const s = buildSlug(t); if (s) seen.add(s); }
+    });
+    document.querySelectorAll('.case-card-image[data-card-slug]').forEach(el => {
+      if (el.dataset.cardSlug) seen.add(el.dataset.cardSlug);
+    });
+    if (seen.size > 0) {
+      const sorted = Array.from(seen).sort();
+      console.groupCollapsed(
+        `%cPortfolio — ${sorted.length} screenshots expected in /refs/`,
+        'font-weight: 600; color: #B83310;'
+      );
+      console.log('Drop matching JPG/PNG/WEBP files into the refs/ folder:');
+      sorted.forEach(slug => console.log(`  refs/${slug}.jpg`));
+      console.groupEnd();
+    }
+  });
+})();
+
+/* =========================================================
+   Reading progress bar + Floating action buttons
+   ========================================================= */
+(function () {
+  const progress = document.getElementById('read-progress');
+  const cluster = document.getElementById('fab-cluster');
+  const fabBack = document.getElementById('fab-back');
+  const fabTop = document.getElementById('fab-top');
+  const fabBottom = document.getElementById('fab-bottom');
+  const SCROLL_THRESHOLD = 100;     // px from top/bottom to hide respective button
+  const MIN_SCROLLABLE = 480;       // px — minimum scroll distance for FABs to appear
+
+  function getScrollState() {
+    const doc = document.documentElement;
+    const top = window.scrollY || doc.scrollTop || 0;
+    const max = (doc.scrollHeight - window.innerHeight) || 0;
+    const pct = max > 0 ? (top / max) * 100 : 0;
+    return { top, max, pct };
+  }
+
+  function updateProgress() {
+    const { top, max, pct } = getScrollState();
+    if (max <= 0 || document.body.classList.contains('landing')) {
+      progress.style.width = '0%';
+      progress.setAttribute('aria-valuenow', '0');
+      return;
+    }
+    const clamped = Math.max(0, Math.min(100, pct));
+    progress.style.width = clamped.toFixed(2) + '%';
+    progress.setAttribute('aria-valuenow', Math.round(clamped).toString());
+  }
+
+  function updateFabs() {
+    const onLanding = document.body.classList.contains('landing');
+    const { top, max } = getScrollState();
+
+    // Landing: hide entire cluster — nothing to scroll between, already home
+    if (onLanding) {
+      cluster.classList.remove('visible');
+      return;
+    }
+
+    // Page barely scrollable: hide entire cluster (short content edge case)
+    if (max < MIN_SCROLLABLE) {
+      cluster.classList.remove('visible');
+      return;
+    }
+
+    cluster.classList.add('visible');
+
+    // Scroll-to-top: hide if at top
+    fabTop.classList.toggle('hidden', top < SCROLL_THRESHOLD);
+    // Scroll-to-bottom: hide if at bottom
+    fabBottom.classList.toggle('hidden', top > max - SCROLL_THRESHOLD);
+    // Back-button: always visible on case studies
+    fabBack.classList.remove('hidden');
+  }
+
+  function tick() {
+    updateProgress();
+    updateFabs();
+  }
+
+  // Smooth scroll with reduced-motion respect
+  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function smoothScrollTo(top) {
+    window.scrollTo({ top, behavior: prefersReduced ? 'auto' : 'smooth' });
+  }
+
+  fabTop.addEventListener('click', () => smoothScrollTo(0));
+  fabBottom.addEventListener('click', () => {
+    const { max } = getScrollState();
+    smoothScrollTo(max);
+  });
+  fabBack.addEventListener('click', () => {
+    // Navigate to landing — if hash routing is used, change hash; otherwise href fallback
+    location.hash = '#/';
+  });
+
+  // Throttled scroll listener via rAF
+  let ticking = false;
+  function onScroll() {
+    if (!ticking) {
+      window.requestAnimationFrame(() => {
+        tick();
+        ticking = false;
+      });
+      ticking = true;
+    }
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', tick, { passive: true });
+  window.addEventListener('hashchange', () => setTimeout(tick, 60));
+  window.addEventListener('DOMContentLoaded', tick);
+  // Initial state in case DOMContentLoaded already fired
+  tick();
+})();
+
+/* =========================================================
+   Audio player · sync highlight · auto-scroll
+   =========================================================
+   Segments are time-fraction based (proportional to audio duration).
+   When ElevenLabs character timestamps are available, paste them in
+   AUDIO_CONFIG[caseId].timestamps to switch to exact-time sync.
+   ========================================================= */
+(function () {
+  // Segment ratios were derived from word-counts in each 1-min script.
+  // Format: { from: 0..1, to: 0..1, sel: 'CSS selector inside the case view', label: 'shown in player' }
+  const AUDIO_CONFIG = {
+    'case-a': {
+      audioId: 'audio-case-a',
+      title: 'Case A · Step 3 Discount Screen',
+      segments: [
+        { from: 0.00, to: 0.32, sel: '.opening blockquote',                            label: '"Step 3 is the main problem."' },
+        { from: 0.32, to: 0.54, sel: '.problem .problem-title', idx: 0,                label: 'Research — four problems' },
+        { from: 0.54, to: 0.77, sel: '.iteration .iteration-title', idx: 1,            label: 'Alert chips on high-priority rows' },
+        { from: 0.77, to: 0.93, sel: '.outcome-stats .stat .stat-value', idx: 0,       label: 'Outcome — 47 → 12 min' },
+        { from: 0.93, to: 1.01, sel: '.reflection p',                                  label: 'The lesson' }
+      ]
+    },
+    'case-b': {
+      audioId: 'audio-case-b',
+      title: 'Case B · AI Trust & Explainability',
+      segments: [
+        { from: 0.00, to: 0.30, sel: '.opening blockquote',                            label: '"It gives me a number — I don\'t know if it\'s good."' },
+        { from: 0.30, to: 0.49, sel: '.problem .problem-title', idx: 0,                label: 'Trust as a stack — precision, reasoning…' },
+        { from: 0.49, to: 0.78, sel: '.iteration .iteration-title', idx: 1,            label: '"Why this discount?" panel' },
+        { from: 0.78, to: 0.93, sel: '.outcome-stats .stat .stat-value', idx: 0,       label: 'Outcome — 23% → 71%' },
+        { from: 0.93, to: 1.01, sel: '.reflection p',                                  label: 'The lesson' }
+      ]
+    },
+    'case-c': {
+      audioId: 'audio-case-c',
+      title: 'Case C · Decision Dashboard',
+      segments: [
+        { from: 0.00, to: 0.30, sel: '.opening blockquote',                            label: '"System of input, not a system of record."' },
+        { from: 0.30, to: 0.58, sel: '.problem .problem-title', idx: 0,                label: 'Wrong question framing' },
+        { from: 0.58, to: 0.82, sel: '.iteration .iteration-title', idx: 1,            label: 'Variance-first dashboard' },
+        { from: 0.82, to: 0.95, sel: '.outcome-stats .stat .stat-value', idx: 0,       label: 'Outcome — Excel exports −77%' },
+        { from: 0.95, to: 1.01, sel: '.reflection p',                                  label: 'The lesson' }
+      ]
+    }
+  };
+
+  const player    = document.getElementById('audio-player');
+  const playIcon  = document.getElementById('ap-play-icon');
+  const playBtn   = document.getElementById('ap-play');
+  const closeBtn  = document.getElementById('ap-close');
+  const speedBtn  = document.getElementById('ap-speed');
+  const trackEl   = document.getElementById('ap-track');
+  const fillEl    = document.getElementById('ap-fill');
+  const segmentEl = document.getElementById('ap-segment');
+  const titleEl   = document.getElementById('ap-title');
+  const indicator      = document.getElementById('narrate-indicator');
+  const indicatorTrack = document.getElementById('narrate-indicator-track');
+  const indicatorDot   = document.getElementById('narrate-indicator-dot');
+
+  const SPEEDS = [1, 1.25, 1.5, 0.75];
+  let speedIdx = 0;
+  let currentAudio = null;
+  let currentCase = null;
+  let currentSegment = null;
+  let userScrollLock = false;
+  let userScrollTimer = null;
+  let isAutoScrolling = false;
+  let autoScrollTimer = null;
+
+  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  function setPlayIcon(playing) {
+    if (playing) {
+      playIcon.innerHTML = '<rect x="6" y="4" width="4" height="16" rx="1"/><rect x="14" y="4" width="4" height="16" rx="1"/>';
+    } else {
+      playIcon.innerHTML = '<polygon points="6 4 20 12 6 20 6 4"/>';
+    }
+  }
+
+  function getCurrentView() {
+    return document.querySelector('.view.active');
+  }
+
+  function clearHighlights(fade) {
+    document.querySelectorAll('.narrating').forEach(el => {
+      if (fade) {
+        el.classList.add('fading');
+        const cleanup = el;
+        setTimeout(() => {
+          cleanup.classList.remove('narrating', 'swept', 'fading');
+          cleanup.style.removeProperty('--narrate-duration');
+        }, 600);
+      } else {
+        el.classList.remove('narrating', 'swept', 'fading');
+        el.style.removeProperty('--narrate-duration');
+      }
+    });
+  }
+
+  function findSegmentElement(view, seg) {
+    if (!seg || !seg.sel) return null;
+    if (typeof seg.idx === 'number') {
+      const els = view.querySelectorAll(seg.sel);
+      return els[seg.idx] || els[0] || null;
+    }
+    return view.querySelector(seg.sel);
+  }
+
+  function findSegment(ratio) {
+    const cfg = AUDIO_CONFIG[currentCase];
+    if (!cfg) return null;
+    for (const s of cfg.segments) {
+      if (ratio >= s.from && ratio < s.to) return s;
+    }
+    return cfg.segments[cfg.segments.length - 1];
+  }
+
+  function smoothScrollTo(targetY) {
+    if (Math.abs(targetY - window.scrollY) < 16) return;
+    isAutoScrolling = true;
+    clearTimeout(autoScrollTimer);
+    window.scrollTo({ top: Math.max(0, targetY), behavior: prefersReduced ? 'auto' : 'smooth' });
+    autoScrollTimer = setTimeout(() => { isAutoScrolling = false; }, 900);
+  }
+
+  function scrollToSegmentElement(el) {
+    if (!el || userScrollLock) return;
+    // Wait one frame so layout/transition is settled (critical on first play
+    // when the view just switched from landing to case study)
+    requestAnimationFrame(() => {
+      if (!el || userScrollLock) return;
+      const rect = el.getBoundingClientRect();
+      // Position element ~38% from top of viewport (the "reading sweet spot")
+      const target = window.scrollY + rect.top - window.innerHeight * 0.38;
+      smoothScrollTo(target);
+    });
+  }
+
+  function highlightSegment(seg) {
+    clearHighlights(true);
+    const view = getCurrentView();
+    if (!view) return;
+    const el = findSegmentElement(view, seg);
+    if (!el) return;
+
+    // Compute segment duration in seconds for the sweep animation
+    const totalDur = (currentAudio && currentAudio.duration) ? currentAudio.duration : 60;
+    const segDur = Math.max(0.5, (seg.to - seg.from) * totalDur);
+
+    el.style.setProperty('--narrate-duration', segDur + 's');
+    el.classList.add('narrating');
+
+    // Force reflow so the transition triggers when 'swept' is added
+    void el.offsetWidth;
+    el.classList.add('swept');
+
+    scrollToSegmentElement(el);
+  }
+
+  function updateIndicator() {
+    const view = getCurrentView();
+    if (!view || !currentAudio || !currentAudio.duration) return;
+    const cfg = AUDIO_CONFIG[currentCase];
+    if (!cfg || !currentSegment) return;
+
+    const ratio = Math.min(1, currentAudio.currentTime / currentAudio.duration);
+
+    // The indicator spans the visible viewport. Fill the track proportionally.
+    const wrap = indicator.getBoundingClientRect();
+    const totalH = wrap.height;
+    const fillH = totalH * ratio;
+    indicatorTrack.style.top = '0px';
+    indicatorTrack.style.height = fillH + 'px';
+    indicatorDot.style.top = (fillH - 4) + 'px';
+  }
+
+  function tick() {
+    if (!currentAudio) return;
+    if (!currentAudio.duration || !isFinite(currentAudio.duration)) {
+      requestAnimationFrame(tick);
+      return;
+    }
+    const ratio = currentAudio.currentTime / currentAudio.duration;
+    fillEl.style.width = (Math.min(1, ratio) * 100).toFixed(2) + '%';
+    trackEl.setAttribute('aria-valuenow', Math.round(ratio * 100).toString());
+
+    const seg = findSegment(ratio);
+    if (seg && seg !== currentSegment) {
+      currentSegment = seg;
+      segmentEl.textContent = seg.label;
+      highlightSegment(seg);
+    }
+    updateIndicator();
+
+    if (!currentAudio.paused && !currentAudio.ended) {
+      requestAnimationFrame(tick);
+    } else if (currentAudio.ended) {
+      setPlayIcon(false);
+    }
+  }
+
+  function openPlayer(caseId, preStartedAudio) {
+    const cfg = AUDIO_CONFIG[caseId];
+    if (!cfg) return;
+    const audio = preStartedAudio || document.getElementById(cfg.audioId);
+    if (!audio) return;
+
+    currentAudio = audio;
+    currentCase = caseId;
+    currentSegment = null;
+    clearHighlights(false);
+    speedBtn.textContent = SPEEDS[speedIdx] + '×';
+    titleEl.textContent = cfg.title;
+    segmentEl.textContent = cfg.segments[0].label;
+    fillEl.style.width = '0%';
+
+    player.classList.add('visible');
+    indicator.classList.add('visible');
+    setPlayIcon(!audio.paused);
+
+    // If audio wasn't pre-started (e.g. called from elsewhere), play now
+    if (!preStartedAudio) {
+      audio.playbackRate = SPEEDS[speedIdx];
+      const p = audio.play();
+      if (p && p.catch) p.catch(() => setPlayIcon(false));
+    }
+
+    requestAnimationFrame(tick);
+  }
+
+  function togglePlay() {
+    if (!currentAudio) return;
+    if (currentAudio.paused) {
+      currentAudio.play();
+      setPlayIcon(true);
+      requestAnimationFrame(tick);
+    } else {
+      currentAudio.pause();
+      setPlayIcon(false);
+    }
+  }
+
+  function closePlayer() {
+    if (currentAudio) {
+      currentAudio.pause();
+      currentAudio.currentTime = 0;
+    }
+    player.classList.remove('visible');
+    indicator.classList.remove('visible');
+    clearHighlights();
+    currentAudio = null;
+    currentCase = null;
+    currentSegment = null;
+    setPlayIcon(false);
+  }
+
+  function cycleSpeed() {
+    speedIdx = (speedIdx + 1) % SPEEDS.length;
+    if (currentAudio) currentAudio.playbackRate = SPEEDS[speedIdx];
+    speedBtn.textContent = SPEEDS[speedIdx] + '×';
+  }
+
+  function handleListenClick(caseId) {
+    const cfg = AUDIO_CONFIG[caseId];
+    if (!cfg) return;
+    const audio = document.getElementById(cfg.audioId);
+    if (!audio) return;
+
+    // CRITICAL: call audio.play() SYNCHRONOUSLY inside the click handler
+    // to preserve the user-gesture activation token. Any setTimeout / await
+    // here would cause mobile Safari and Chrome to block playback silently.
+    if (currentAudio && currentAudio !== audio) {
+      currentAudio.pause();
+      currentAudio.currentTime = 0;
+    }
+    audio.currentTime = 0;
+    audio.playbackRate = SPEEDS[speedIdx];
+    const p = audio.play();
+    if (p && p.catch) p.catch(() => setPlayIcon(false));
+
+    const onThisCase = location.hash.replace(/^#\/?/, '') === caseId;
+    if (!onThisCase) {
+      // Navigate first, then open the UI once the view has switched
+      location.hash = '#' + caseId;
+      // openPlayer in next tick so the new view is mounted; audio is already playing
+      setTimeout(() => openPlayer(caseId, audio), 60);
+    } else {
+      openPlayer(caseId, audio);
+    }
+  }
+
+  // Wire up listen triggers (chips on cards + CTAs on case studies)
+  document.querySelectorAll('[data-listen]').forEach(el => {
+    const caseId = el.dataset.listen;
+    el.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      handleListenClick(caseId);
+    });
+    if (el.getAttribute('role') === 'button') {
+      el.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          e.stopPropagation();
+          handleListenClick(caseId);
+        }
+      });
+    }
+  });
+
+  // Player controls
+  playBtn.addEventListener('click', togglePlay);
+  closeBtn.addEventListener('click', closePlayer);
+  speedBtn.addEventListener('click', cycleSpeed);
+  trackEl.addEventListener('click', (e) => {
+    if (!currentAudio || !currentAudio.duration) return;
+    const rect = trackEl.getBoundingClientRect();
+    const ratio = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
+    currentAudio.currentTime = ratio * currentAudio.duration;
+    requestAnimationFrame(tick);
+  });
+
+  // Audio "ended" event
+  ['case-a','case-b','case-c'].forEach(caseId => {
+    const audio = document.getElementById(AUDIO_CONFIG[caseId].audioId);
+    if (!audio) return;
+    audio.addEventListener('ended', () => {
+      setPlayIcon(false);
+      // Hold the last highlight for a beat, then dismiss
+      setTimeout(() => { if (currentAudio === audio) closePlayer(); }, 2400);
+    });
+  });
+
+  // Stop audio on view change (e.g. user clicks back to landing)
+  window.addEventListener('hashchange', () => {
+    const newCase = (location.hash || '').replace(/^#\/?/, '');
+    if (currentCase && newCase !== currentCase) closePlayer();
+  });
+
+  // Manual scroll detection — when user scrolls, pause auto-scroll for 4 seconds
+  let lastY = window.scrollY;
+  window.addEventListener('scroll', () => {
+    if (isAutoScrolling) { lastY = window.scrollY; return; }
+    const dy = Math.abs(window.scrollY - lastY);
+    lastY = window.scrollY;
+    if (dy > 10 && currentAudio && !currentAudio.paused) {
+      userScrollLock = true;
+      clearTimeout(userScrollTimer);
+      userScrollTimer = setTimeout(() => { userScrollLock = false; }, 4000);
+    }
+  }, { passive: true });
+
+  // Keyboard: space = toggle play, escape = close (only when player visible)
+  document.addEventListener('keydown', (e) => {
+    if (!player.classList.contains('visible')) return;
+    const tag = (e.target.tagName || '').toLowerCase();
+    if (tag === 'input' || tag === 'textarea') return;
+    if (e.code === 'Space') { e.preventDefault(); togglePlay(); }
+    else if (e.key === 'Escape') { e.preventDefault(); closePlayer(); }
+  });
+
+  // Reflow indicator on resize
+  window.addEventListener('resize', updateIndicator, { passive: true });
+})();
+</script>
+
+</body>
+</html>
