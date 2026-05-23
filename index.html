@@ -245,6 +245,48 @@ body.landing .case-switcher { display: none; }
 .hero-pill strong { color: var(--text); font-weight: 600; }
 .hero-pill:hover strong { color: var(--accent); }
 
+/* Scroll cue — minimal, centered, dimmed by default */
+.scroll-cue {
+  margin: 56px auto 0;
+  display: flex;
+  width: fit-content;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 0;
+  background: transparent;
+  border: none;
+  color: var(--text-3);
+  font-family: inherit;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  cursor: pointer;
+  text-decoration: none;
+  opacity: 0.7;
+  transition: opacity .25s var(--ease-out), color .25s var(--ease-out), gap .25s var(--ease-out);
+  animation: fadeUp .6s var(--ease-out) backwards;
+  animation-delay: .7s;
+}
+.scroll-cue:hover { opacity: 1; color: var(--accent); gap: 12px; }
+.scroll-cue:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; border-radius: 4px; }
+.scroll-cue-arrow {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: currentColor;
+  animation: scrollCueBounce 2.2s ease-in-out infinite;
+}
+.scroll-cue-arrow svg { width: 11px; height: 11px; display: block; }
+@keyframes scrollCueBounce {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(3px); }
+}
+@media (max-width: 479px) {
+  .scroll-cue { margin-top: 44px; font-size: 9px; gap: 6px; }
+  .scroll-cue-arrow svg { width: 10px; height: 10px; }
+}
+
 /* =========================================================
    Case cards
    ========================================================= */
@@ -1228,10 +1270,19 @@ body.case-c .narrate-indicator-dot { box-shadow: 0 0 0 4px rgba(139,105,20, 0.16
       <span class="hero-pill">Currently shipping in <strong>PromoSmart</strong></span>
       <span class="hero-pill">Based in <strong>Bangalore</strong>, India</span>
     </div>
+
+    <button class="scroll-cue" type="button" data-scroll-target="cases-section" aria-label="Scroll to see work">
+      Scroll to see work
+      <span class="scroll-cue-arrow" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="6 9 12 15 18 9"/>
+        </svg>
+      </span>
+    </button>
   </div>
 </section>
 
-<section class="cases-section">
+<section class="cases-section" id="cases-section">
   <div class="cases-section-label">Selected work · 2024</div>
   <div class="container-cards">
     <div class="case-cards">
@@ -1923,6 +1974,20 @@ body.case-c .narrate-indicator-dot { box-shadow: 0 0 0 4px rgba(139,105,20, 0.16
   }
   window.addEventListener('hashchange', () => showView(parseHash()));
   window.addEventListener('DOMContentLoaded', () => showView(parseHash()));
+
+  // Scroll-cue: smooth-scroll to a target id without changing the URL hash
+  document.querySelectorAll('[data-scroll-target]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const target = document.getElementById(btn.dataset.scrollTarget);
+      if (!target) return;
+      const rect = target.getBoundingClientRect();
+      const offset = 80;
+      window.scrollTo({
+        top: window.scrollY + rect.top - offset,
+        behavior: 'smooth'
+      });
+    });
+  });
 
   // Mobile case-switcher arrows — cycle through case studies
   const CASE_ORDER = ['case-a', 'case-b', 'case-c'];
